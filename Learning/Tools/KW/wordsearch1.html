@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>Liora's Mythic Word Search</title>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -160,35 +162,31 @@
   alert("🔮 Welcome to Liora's Mythic Word Search!\n\nClick and drag across letters to highlight a word.\nFind all 6 to win!");
 };
 
-    // Selection logic
-    let isMouseDown = false;
+let isMouseDown = false;
 
-    grid.addEventListener("mousedown", e => {
-      if (e.target.classList.contains("cell")) {
-        isMouseDown = true;
-        selectedCells = [e.target];
-        e.target.classList.add("selected");
-      }
-    });
 
-    grid.addEventListener("mouseover", e => {
-      if (isMouseDown && e.target.classList.contains("cell") && !selectedCells.includes(e.target)) {
-        selectedCells.push(e.target);
-        e.target.classList.add("selected");
-      }
-    });
+// Mouse Events
+grid.addEventListener("mousedown", e => {
+  if (e.target.classList.contains("cell")) {
+    isMouseDown = true;
+    selectedCells = [e.target];
+    e.target.classList.add("selected");
+  }
+});
 
-    document.addEventListener("mouseup", () => {
-  if (selectedCells.length > 0) {
-    const selectedWord = selectedCells.map(c => c.textContent).join("");
-    if (words.includes(selectedWord)) {
-      selectedCells.forEach(c => c.classList.remove("selected"));
-      selectedCells.forEach(c => c.classList.add("found"));
-      for (let li of wordList) {
-        if (li.textContent === selectedWord) {
-          li.classList.add("found");
-        }
-      }
+grid.addEventListener("mouseover", e => {
+  if (isMouseDown && e.target.classList.contains("cell") && !selectedCells.includes(e.target)) {
+    selectedCells.push(e.target);
+    e.target.classList.add("selected");
+  }
+});
+
+document.addEventListener("mouseup", () => {
+  finalizeSelection();
+  isMouseDown = false;
+});
+
+// Touch Events
 grid.addEventListener("touchstart", e => {
   const touch = e.touches[0];
   const target = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -198,7 +196,21 @@ grid.addEventListener("touchstart", e => {
   }
 });
 
+grid.addEventListener("touchmove", e => {
+  const touch = e.touches[0];
+  const target = document.elementFromPoint(touch.clientX, touch.clientY);
+  if (target && target.classList.contains("cell") && !selectedCells.includes(target)) {
+    selectedCells.push(target);
+    target.classList.add("selected");
+  }
+});
+
 grid.addEventListener("touchend", () => {
+  finalizeSelection();
+});
+
+// Finalize Selection Logic
+function finalizeSelection() {
   if (selectedCells.length > 0) {
     const selectedWord = selectedCells.map(c => c.textContent).join("");
     if (words.includes(selectedWord)) {
@@ -234,36 +246,9 @@ grid.addEventListener("touchend", () => {
     }
     selectedCells = [];
   }
-});
+}
 
-      // ✅ Check if all words are found
-      let foundCount = 0;
-      for (let li of wordList) {
-        if (li.classList.contains("found")) {
-          foundCount++;
-        }
-      }
 
-      if (foundCount === words.length) {
-        confetti({
-          particleCount: 150,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-
-        setTimeout(() => {
-          alert("🎉 Congratulations! You found all the words!");
-          location.reload();
-        }, 500);
-      }
-
-    } else {
-      selectedCells.forEach(c => c.classList.remove("selected"));
-    }
-    selectedCells = [];
-  }
-  isMouseDown = false;
-});
   </script>
 
 </body>
