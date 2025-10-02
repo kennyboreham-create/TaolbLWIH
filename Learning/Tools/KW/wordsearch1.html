@@ -188,22 +188,25 @@ document.addEventListener("mouseup", () => {
 
 // Touch Events
 grid.addEventListener("touchstart", e => {
+  e.preventDefault(); // Prevent scrolling
   const touch = e.touches[0];
   const target = document.elementFromPoint(touch.clientX, touch.clientY);
   if (target && target.classList.contains("cell")) {
     selectedCells = [target];
     target.classList.add("selected");
   }
-});
+}, { passive: false });
 
 grid.addEventListener("touchmove", e => {
+  e.preventDefault(); // Prevent scrolling
   const touch = e.touches[0];
   const target = document.elementFromPoint(touch.clientX, touch.clientY);
   if (target && target.classList.contains("cell") && !selectedCells.includes(target)) {
     selectedCells.push(target);
     target.classList.add("selected");
   }
-});
+}, { passive: false });
+
 
 grid.addEventListener("touchend", () => {
   finalizeSelection();
