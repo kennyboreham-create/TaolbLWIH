@@ -188,7 +188,8 @@ document.addEventListener("mouseup", () => {
 
 // Touch Events
 grid.addEventListener("touchstart", e => {
-  e.preventDefault(); // Prevent scrolling
+  isTouchSelecting = true;
+  e.preventDefault(); // block scroll only during selection
   const touch = e.touches[0];
   const target = document.elementFromPoint(touch.clientX, touch.clientY);
   if (target && target.classList.contains("cell")) {
@@ -197,20 +198,26 @@ grid.addEventListener("touchstart", e => {
   }
 }, { passive: false });
 
+
 grid.addEventListener("touchmove", e => {
-  e.preventDefault(); // Prevent scrolling
-  const touch = e.touches[0];
-  const target = document.elementFromPoint(touch.clientX, touch.clientY);
-  if (target && target.classList.contains("cell") && !selectedCells.includes(target)) {
-    selectedCells.push(target);
-    target.classList.add("selected");
+  if (isTouchSelecting) {
+    e.preventDefault(); // block scroll only if selecting
+    const touch = e.touches[0];
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (target && target.classList.contains("cell") && !selectedCells.includes(target)) {
+      selectedCells.push(target);
+      target.classList.add("selected");
+    }
   }
 }, { passive: false });
 
 
+
 grid.addEventListener("touchend", () => {
+  isTouchSelecting = false;
   finalizeSelection();
 });
+
 
 // Finalize Selection Logic
 function finalizeSelection() {
