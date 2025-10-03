@@ -25,8 +25,13 @@
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+   
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS + Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
@@ -293,8 +298,36 @@
                             </div>
                             <h5 class="mb-3">The Legends Of Velari</h5>
                             <p class="m-0">A series of comics about the adventures on Velari</p>
-                            <a class="btn btn-square" href="Comics/comic4.html"><i class="fa fa-arrow-right"></i></a>
-                        </div>
+                            <!-- Trigger Button (Updated to open modal) -->
+<!-- Trigger Button -->
+<a class="btn btn-square" data-bs-toggle="modal" data-bs-target="#velariModal">
+  <i class="fa fa-arrow-right"></i>
+</a>
+
+<!-- Modal -->
+<div class="modal fade" id="velariModal" tabindex="-1" aria-labelledby="velariModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-white" style="background-color: #5e2ca5;">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="velariModalLabel">🌌 The Legends of Velari</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          *The Legends of Velari* is a bold, family-friendly comic saga set on the mysterious planet Velari.
+          Follow Kaelis, Thalor, and a cast of unforgettable heroes as they uncover ancient secrets, battle rising threats,
+          and awaken powers hidden deep within the Hollow Veil.
+        </p>
+      </div>
+      <div class="modal-footer border-0">
+        <a href="Comics/comic4.html" class="btn btn-light">Explore the Comic</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+                            </div>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="service-item d-flex flex-column text-center rounded">
@@ -559,7 +592,7 @@
                         <p class="section-title text-white h5 mb-4">Gallery<span></span></p>
                         <div class="row g-2">
                             <div class="col-4">
-                                <img class="img-fluid" src="img/portfolio-1.jpg" alt="Image">
+                                <img class="img-fluid" src="img/portfolio-2.jpg" alt="Image">
                             </div>
                             <div class="col-4">
                                 <img class="img-fluid" src="img/portfolio-2.jpg" alt="Image">
