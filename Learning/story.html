@@ -298,32 +298,9 @@
                             <p class="m-0">A series of comics about the adventures on Velari</p>
                             <!-- Trigger Button (Updated to open modal) -->
 <!-- Trigger Button -->
-<a class="btn btn-square" data-bs-toggle="modal" data-bs-target="#velariModal">
+<a class="btn btn-square" onclick="openModal5()">
   <i class="fa fa-arrow-right"></i>
 </a>
-
-<!-- Modal -->
-<div class="modal fade" id="velariModal" tabindex="-1" aria-labelledby="velariModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content text-white" style="background-color: #5e2ca5;">
-      <div class="modal-header border-0">
-        <h5 class="modal-title" id="velariModalLabel">🌌 The Legends of Velari</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          *The Legends of Velari* is a bold, family-friendly comic saga set on the mysterious planet Velari.
-          Follow Kaelis, Thalor, and a cast of unforgettable heroes as they uncover ancient secrets, battle rising threats,
-          and awaken powers hidden deep within the Hollow Veil.
-        </p>
-      </div>
-      <div class="modal-footer border-0">
-        <a href="Comics/comic4.html" class="btn btn-light">Explore the Comic</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 
                             </div>
@@ -719,6 +696,40 @@ They are within us.
   </div>
 </div>
 
+<div id="customModal3" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal3()">&times;</span>
+    <h2>The Resolute
+</h2>
+    <p>
+    
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="customModal5" tabindex="-1" aria-labelledby="velariModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <span class="close" onclick="closeModal4()">&times;</span>
+    <div class="modal-content text-white" style="background-color: #5e2ca5;">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="velariModalLabel">🌌 The Legends of Velari</h5>
+      
+
+      </div>
+      <div class="modal-body">
+        <p>
+          *The Legends of Velari* is a bold, family-friendly comic saga set on the mysterious planet Velari.
+          Follow Kaelis, Thalor, and a cast of unforgettable heroes as they uncover ancient secrets, battle rising threats,
+          and awaken powers hidden deep within the Hollow Veil.
+        </p>
+      </div>
+      <div class="modal-footer border-0">
+        <a href="Comics/comic4.html" class="btn btn-light">Explore the Comic</a>
+      </div>
+    </div>
+  </div>
+</div>
+
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-secondary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
@@ -799,6 +810,13 @@ function openModal4() {
 function closeModal4() {
   document.getElementById("customModal4").style.display = "none";
 }
+function openModal5() {
+  document.getElementById("customModal5").style.display = "block";
+}
+function closeModal5() {
+  document.getElementById("customModal5").style.display = "none";
+}
+
 </script>
 
 
