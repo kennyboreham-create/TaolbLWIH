@@ -308,7 +308,7 @@
                             </div>
                             <h5 class="mb-3">Adventures On Zorath</h5>
                             <p class="m-0">Stories from the Zorathians</p>
-                            <a class="btn btn-square" href=""><i class="fa fa-arrow-right"></i></a>
+                            <a class="btn btn-square" onclick="openModal6()"><i class="fa fa-arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
@@ -318,7 +318,7 @@
                             </div>
                             <h5 class="mb-3">Tales From The Galaxy</h5>
                             <p class="m-0">Meet the characters of TAOLB</p>
-                            <a class="btn btn-square" href=""><i class="fa fa-arrow-right"></i></a>
+                            <a class="btn btn-square" onclick="openModal7()"><i class="fa fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -705,29 +705,29 @@ They are within us.
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="customModal8" >
-  <div class="modal-dialog modal-dialog-centered">
-    <span class="close" onclick="closeModal4()">&times;</span>
-    <div class="modal-content text-white" style="background-color: #5e2ca5;">
-      <div class="modal-header border-0">
-        <h5 class="modal-title" id="velariModalLabel">🌌 The Legends of Velari</h5>
-      
-
-      </div>
-      <div class="modal-body">
-        <p>
-          *The Legends of Velari* is a bold, family-friendly comic saga set on the mysterious planet Velari.
-          Follow Kaelis, Thalor, and a cast of unforgettable heroes as they uncover ancient secrets, battle rising threats,
-          and awaken powers hidden deep within the Hollow Veil.
-        </p>
-      </div>
-      <div class="modal-footer border-0">
-        
-      </div>
-    </div>
+<div id="customModal6" class="modal">
+  <div class="modal-content" style="background-color: #5e2ca5; color: white;">
+    <span class="close" onclick="closeModal6()">&times;</span><br><br>
+    <h2>🌀 Adventures On Zorath
+</h2><br>
+    <p>On the shimmering blue planet of Zorath, reptilian warriors clash in a struggle for balance and power. Some wield ancient blue mystical energy tied to the planet’s core, while others rely on brute strength, cunning, or forgotten tech. As tensions rise between clans and secrets awaken beneath the surface, young heroes must choose their path: magic, might, or something entirely new. A bold, family friendly saga of destiny, unity, and discovery.
+</p>
+    
   </div>
 </div>
+
+<div id="customModal7" class="modal">
+  <div class="modal-content" style="background-color: #5e2ca5; color: white;">
+    <span class="close" onclick="closeModal7()">&times;</span><br><br>
+    <h2>🌌 Tales From The Galaxy
+</h2><br>
+    <p>Across star systems and shadowed moons, "Tales From The Galaxy" explores the lives of extraordinary beings, rebels, wanderers, mystics, and misfits each with their own story to tell. From the icy outposts of Varn to the floating cities of Solari Prime, these interconnected adventures reveal the heartbeats of a galaxy in flux. With each tale, readers uncover new worlds, unexpected alliances, and the personal choices that shape cosmic destinies.
+</p>
+    
+  </div>
+</div>
+
+
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-secondary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -814,6 +814,18 @@ function openModal5() {
 }
 function closeModal5() {
   document.getElementById("customModal5").style.display = "none";
+}
+function openModal6() {
+  document.getElementById("customModal6").style.display = "block";
+}
+function closeModal6() {
+  document.getElementById("customModal6").style.display = "none";
+}
+function openModal7() {
+  document.getElementById("customModal7").style.display = "block";
+}
+function closeModal7() {
+  document.getElementById("customModal7").style.display = "none";
 }
 
 </script>
