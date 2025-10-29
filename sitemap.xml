@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Main Pages -->
+  <url><loc>https://learningwithlukeybuke.com/Learning/index.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/index.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Comics/index.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/characters/index.html</loc></url>
+
+  <!-- Shape Tools -->
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/BW/shapes3.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/BW/shapes4.html</loc></url>
+
+  <!-- Typing Tools -->
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/index.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Level1/level1.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level11.html</loc></url>
+  <!-- Add more levels as needed -->
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level1.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level2.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level3.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level4.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level5.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level6.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level7.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level8.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level9.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level10.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Tools/Typing/Levels/level12.html</loc></url>
+
+  <!-- Comics -->
+  <url><loc>https://learningwithlukeybuke.com/Learning/Comics/comic2.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Comics/comic3.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/Comics/comic4.html</loc></url>
+
+  <!-- Character Pages -->
+  <url><loc>https://learningwithlukeybuke.com/Learning/characters/humans.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/characters/Velari.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/characters/zorathians.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/characters/bugs.html</loc></url>
+  <url><loc>https://learningwithlukeybuke.com/Learning/characters/unknown.html</loc></url>
+
+</urlset>
