@@ -65,6 +65,48 @@
     </div>
   </div>
 </section>
+<!-- Exit Intent Popup -->
+<div id="exitPopup" style="
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.6);
+  z-index:9999;
+  justify-content:center;
+  align-items:center;
+">
+  <div style="
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    max-width:400px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  ">
+    <h2>Try out our new online worksheet</h2>
+    <form>
+      <label for="email">Email:</label><br>
+      <input type="email" id="email" name="email" required style="width:100%; padding:8px; margin:10px 0;"><br>
+      <button type="submit" style="padding:10px 20px; background:#4caf50; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+        Submit
+      </button>
+    </form>
+    <button onclick="document.getElementById('exitPopup').style.display='none'" 
+            style="margin-top:15px; padding:8px 16px; background:#999; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+      Close
+    </button>
+  </div>
+</div>
+
+<script>
+  // Show popup when mouse leaves window at the top (exit intent)
+  document.addEventListener('mouseout', function(e) {
+    if (e.clientY < 10) {
+      document.getElementById('exitPopup').style.display = 'flex';
+    }
+  });
+</script>
 
 
   <!-- Footer -->
