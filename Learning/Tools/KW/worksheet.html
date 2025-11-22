@@ -77,6 +77,7 @@
   align-items:center;
 ">
   <div style="
+    position:relative;
     background:#fff;
     padding:20px;
     border-radius:10px;
@@ -84,6 +85,20 @@
     text-align:center;
     box-shadow:0 4px 12px rgba(0,0,0,0.2);
   ">
+    <!-- Close X -->
+    <span onclick="document.getElementById('exitPopup').style.display='none'" 
+          style="
+            position:absolute;
+            top:10px;
+            left:10px;
+            font-size:20px;
+            font-weight:bold;
+            color:#666;
+            cursor:pointer;
+          ">
+      ✖
+    </span>
+
     <h2>Try out our new online worksheet</h2>
     <p>Before you go, check out our interactive reading worksheet designed to make learning fun!</p>
     <a href="https://learningwithlukeybuke.com/Learning/thanks/readingworksheet1.html" 
@@ -98,12 +113,10 @@
          border-radius:5px;
        ">
       📄 Open Worksheet
-    <button onclick="document.getElementById('exitPopup').style.display='none'" 
-            style="margin-top:15px; padding:8px 16px; background:#999; color:#fff; border:none; border-radius:6px; cursor:pointer;">
-      Close
-    </button>
+    </a>
   </div>
 </div>
+
 
 <script>
   // Show popup when mouse leaves window at the top (exit intent)
