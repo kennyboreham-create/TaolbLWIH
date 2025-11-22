@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reading Worksheet 6: The Brave Little Seed</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Interactive reading worksheet for kids ages 5–8 with comprehension, sequencing, vocabulary, and creative writing." />
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --accent: #4caf50;
+      --bg: #f7f7fa;
+      --card: #ffffff;
+      --text: #333;
+      --muted: #666;
+      --border: #ddd;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 24px 16px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 8px; font-size: 1.8rem; }
+    header p { margin: 0; font-size: 1rem; opacity: 0.9; }
+    .container {
+      max-width: 900px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    h2, h3 {
+      color: var(--primary);
+      margin-top: 0;
+    }
+    .story {
+      background: #fcfcfd;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 1.05rem;
+    }
+    .question-group { margin-top: 12px; }
+    .question { margin: 10px 0; }
+    .options { margin-top: 6px; }
+    .options label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+    input[type="text"], input[type="number"], textarea, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #fff;
+    }
+    textarea { min-height: 120px; resize: vertical; }
+    .inline {
+      display: inline-block;
+      min-width: 180px;
+      margin-right: 10px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .helper {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+      margin: 8px 0 0;
+    }
+    .btn {
+      appearance: none;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    }
+    .btn.secondary {
+      background: #607d8b;
+    }
+    .btn.muted {
+      background: #9e9e9e;
+    }
+    .progress {
+      height: 10px;
+      background: #eaeaea;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0 0;
+    }
+    .progress > div {
+      height: 10px;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.4s ease;
+    }
+    .dashed-box {
+      border: 2px dashed #bbb;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      color: var(--muted);
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 20px 16px 40px;
+      font-size: 0.95rem;
+    }
+    @media print {
+      header { background: #000; color: #fff; }
+      .btn, .toolbar { display: none !important; }
+      body { background: #fff; }
+      .card { box-shadow: none; border-color: #ccc; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Reading Worksheet 6</h1>
+    <p>The Brave Little Seed — Interactive webpage (ages 5–8)</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Story -->
+    <section class="card">
+      <h2>Part 1 — Read the story</h2>
+      <div class="story" aria-label="Reading passage">
+        <p>
+          In the spring, Maya planted a tiny seed in a pot by the window. Every day, she gave it water and a sunny smile.
+          The seed sprouted a small green leaf. Maya whispered, “You can do it!” Weeks later, the plant grew taller than the pot.
+          Maya carried it outside and planted it in the garden. By summer, bright yellow flowers danced in the breeze.
+        </p>
+      </div>
+      <div class="toolbar">
+        <button class="btn secondary" type="button" onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })">Jump to answers</button>
+        <button class="btn" type="button" onclick="window.print()">Print worksheet</button>
+      </div>
+      <div class="progress" aria-label="Completion progress">
+        <div id="progress-bar"></div>
+      </div>
+    </section>
+
+    <!-- Comprehension -->
+    <section class="card">
+      <h2>Part 2 — Comprehension questions</h2>
+      <div class="question-group">
+        <div class="question">
+          <label><strong>1. What did Maya plant?</strong></label>
+          <div class="options">
+            <label><input type="radio" name="q1" value="A"> A tree</label>
+            <label><input type="radio" name="q1" value="B"> A tiny seed</label>
+            <label><input type="radio" name="q1" value="C"> A carrot</label>
+            <label><input type="radio" name="q1" value="D"> A sunflower</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label><strong>2. Where did Maya first keep the plant?</strong></label>
+          <div class="options">
+            <label><input type="radio" name="q2" value="A"> In the garden</label>
+            <label><input type="radio" name="q2" value="B"> By the window in a pot</label>
+            <label><input type="radio" name="q2" value="C"> On the porch</label>
+            <label><input type="radio" name="q2" value="D"> In the kitchen</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label><strong>3. What happened by summer?</strong></label>
+          <div class="options">
+            <label><input type="radio" name="q3" value="A"> The plant made bright yellow flowers</label>
+            <label><input type="radio" name="q3" value="B"> The plant turned into a tree</label>
+            <label><input type="radio" name="q3" value="C"> The plant stopped growing</label>
+            <label><input type="radio" name="q3" value="D"> The plant went back in the pot</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sequencing -->
+    <section class="card">
+      <h2>Part 3 — Sequencing</h2>
+      <p class="helper">Number the events 1–4 (1 = first, 4 = last).</p>
+      <div class="grid-2">
+        <label class="inline">___ Maya planted the seed in a pot. <input type="number" min="1" max="4" name="seq1" aria-label="Order for planted seed" /></label>
+        <label class="inline">___ The seed sprouted a green leaf. <input type="number" min="1" max="4" name="seq2" aria-label="Order for sprouted leaf" /></label>
+        <label class="inline">___ Maya moved the plant to the garden. <input type="number" min="1" max="4" name="seq3" aria-label="Order for moved to garden" /></label>
+        <label class="inline">___ Yellow flowers danced in the breeze. <input type="number" min="1" max="4" name="seq4" aria-label="Order for flowers bloomed" /></label>
+      </div>
+    </section>
+
+    <!-- Vocabulary -->
+    <section class="card">
+      <h2>Part 4 — Vocabulary</h2>
+      <div class="question">
+        <label><strong>Circle (check) the plant words:</strong></label>
+        <div class="grid-3 options" role="group" aria-label="Vocabulary checkboxes">
+          <label><input type="checkbox" name="vocab" value="seed"> seed</label>
+          <label><input type="checkbox" name="vocab" value="leaf"> leaf</label>
+          <label><input type="checkbox" name="vocab" value="garden"> garden</label>
+          <label><input type="checkbox" name="vocab" value="breeze"> breeze</label>
+          <label><input type="checkbox" name="vocab" value="window"> window</label>
+          <label><input type="checkbox" name="vocab" value="smile"> smile</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <label><strong>Fill in the blank:</strong></label>
+        <p>Maya whispered, “You can do it!” when the seed grew a small green <input type="text" name="blank1" aria-label="Fill in the blank for leaf" placeholder="Type your answer">.</p>
+      </div>
+    </section>
+
+    <!-- Creative -->
+    <section class="card">
+      <h2>Part 5 — Creative activity</h2>
+      <p class="helper">Write one sentence about Maya’s plant on a windy day. What does it look like? What does it do?</p>
+      <textarea name="creative" placeholder="Write your sentence here..." aria-label="Creative writing area"></textarea>
+      <div class="card">
+  <h2>Part 5 — Creative activity</h2>
+  <p class="helper">Write one sentence about Maya’s plant on a windy day. What does it look like? What does it do?</p>
+  <textarea name="creative" placeholder="Write your sentence here..." aria-label="Creative writing area"></textarea>
+
+  <!-- Drawing area -->
+  <h3 style="margin-top:20px;">🎨 Draw your picture</h3>
+  <canvas id="drawingCanvas" width="500" height="300" 
+          style="border:2px dashed #bbb; border-radius:10px; background:#fff; cursor:crosshair;">
+    Your browser does not support the canvas element.
+  </canvas>
+  <div class="toolbar" style="margin-top:10px;">
+    <button class="btn secondary" type="button" onclick="clearCanvas()">Clear Drawing</button>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('drawingCanvas');
+  const ctx = canvas.getContext('2d');
+  let drawing = false;
+
+  function startDraw(e) {
+    drawing = true;
+    ctx.beginPath();
+    ctx.moveTo(getX(e), getY(e));
+  }
+
+  function draw(e) {
+    if (!drawing) return;
+    ctx.lineTo(getX(e), getY(e));
+    ctx.strokeStyle = '#000';   // black pen
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  }
+
+  function endDraw() {
+    drawing = false;
+    ctx.closePath();
+  }
+
+  function getX(e) {
+    return e.offsetX !== undefined ? e.offsetX : e.touches[0].clientX - canvas.getBoundingClientRect().left;
+  }
+
+  function getY(e) {
+    return e.offsetY !== undefined ? e.offsetY : e.touches[0].clientY - canvas.getBoundingClientRect().top;
+  }
+
+  function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // Mouse events
+  canvas.addEventListener('mousedown', startDraw);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', endDraw);
+  canvas.addEventListener('mouseout', endDraw);
+
+  // Touch events (for tablets/phones)
+  canvas.addEventListener('touchstart', startDraw);
+  canvas.addEventListener('touchmove', draw);
+  canvas.addEventListener('touchend', endDraw);
+</script>
+
+    </section>
+
+    <!-- Actions -->
+    <section class="card">
+      <h3>Save or print</h3>
+      <p class="helper">You can print this worksheet or save your answers in your browser (they’ll stay on this device).</p>
+      <div class="toolbar">
+        <button class="btn" type="button" onclick="window.print()">Print worksheet</button>
+        <button class="btn secondary" type="button" id="btn-save">Save answers</button>
+        <button class="btn muted" type="button" id="btn-clear">Clear answers</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Designed for kids ages 5–8 • Reading, sequencing, vocabulary, and creative expression
+  </footer>
+
+  <script>
+    // Simple local persistence
+    const fields = [
+      'q1','q2','q3',
+      'seq1','seq2','seq3','seq4',
+      'blank1','creative'
+    ];
+    const checkboxName = 'vocab';
+
+    function saveAnswers() {
+      const data = {};
+      fields.forEach(name => {
+        const el = document.querySelector(`[name="${name}"]`);
+        if (!el) return;
+        data[name] = el.type === 'radio'
+          ? (document.querySelector(`input[name="${name}"]:checked`)?.value || '')
+          : el.value || '';
+      });
+      const checked = Array.from(document.querySelectorAll(`input[name="${checkboxName}"]:checked`)).map(c => c.value);
+      data[checkboxName] = checked;
+      localStorage.setItem('worksheet6', JSON.stringify(data));
+      alert('Answers saved on this device.');
+      updateProgress();
+    }
+
+    function loadAnswers() {
+      try {
+        const data = JSON.parse(localStorage.getItem('worksheet6')) || {};
+        fields.forEach(name => {
+          const el = document.querySelector(`[name="${name}"]`);
+          if (!el) return;
+          if (el.type === 'radio') {
+            const val = data[name];
+            if (val) {
+              const radio = document.querySelector(`input[name="${name}"][value="${val}"]`);
+              if (radio) radio.checked = true;
+            }
+          } else {
+            el.value = data[name] || '';
+          }
+        });
+        const all = document.querySelectorAll(`input[name="${checkboxName}"]`);
+        all.forEach(c => c.checked = (data[checkboxName] || []).includes(c.value));
+      } catch(e) {}
+      updateProgress();
+    }
+
+    function clearAnswers() {
+      localStorage.removeItem('worksheet6');
+      // Clear radios
+      ['q1','q2','q3'].forEach(name => {
+        document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.checked = false);
+      });
+      // Clear others
+      ['seq1','seq2','seq3','seq4','blank1','creative'].forEach(name => {
+        const el = document.querySelector(`[name="${name}"]`);
+        if (el) el.value = '';
+      });
+      document.querySelectorAll(`input[name="vocab"]`).forEach(c => c.checked = false);
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const totalQuestions = 3 + 4 + 1 + 1; // radios + sequencing + fill blank + creative
+      let completed = 0;
+
+      // Radios
+      ['q1','q2','q3'].forEach(name => {
+        if (document.querySelector(`input[name="${name}"]:checked`)) completed++;
+      });
+
+      // Sequencing
+      ['seq1','seq2','seq3','seq4'].forEach(name => {
+        const v = (document.querySelector(`[name="${name}"]`)?.value || '').trim();
+        if (v) completed++;
+      });
+
+      // Fill blank
+      if ((document.querySelector('[name="blank1"]')?.value || '').trim()) completed++;
+
+      // Creative
+      if ((document.querySelector('[name="creative"]')?.value || '').trim()) completed++;
+
+      const pct = Math.round((completed / totalQuestions) * 100);
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('progress-bar').setAttribute('aria-valuenow', pct);
+      document.getElementById('progress-bar').title = 'Progress: ' + pct + '%';
+    }
+
+    document.getElementById('btn-save').addEventListener('click', saveAnswers);
+    document.getElementById('btn-clear').addEventListener('click', clearAnswers);
+    document.addEventListener('input', updateProgress);
+    window.addEventListener('load', loadAnswers);
+  </script>
+</body>
+</html>
