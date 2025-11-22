@@ -11085,3 +11085,12 @@ section.resume-section .resume-section-content {
   font-size: 2em;
   animation: pulse 2s infinite;
 }
+
+#navbarResponsive {
+  max-height: 100vh;   /* full screen height */
+  overflow-y: auto;    /* scroll if content is too tall */
+}
+#sideNav {
+  height: 100vh;       /* full height */
+  overflow-y: auto;    /* allow scrolling */
+}
