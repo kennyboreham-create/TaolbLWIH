@@ -40,40 +40,63 @@
 
   </div>
 </header>
- <!-- Exit Intent Popup -->
-  <div id="exitPopup">
-    <div id="exitPopupCard">
-      <button id="exitPopupClose" aria-label="Close popup">✖</button>
-      <h2>Try out our new online maze</h2>
-      <p>Before you go, check out our interactive maze with no signup—designed to make learning fun!</p>
-      <a href="https://learningwithlukeybuke.com/Learning/tools/OnlineMaze/mazet.html" target="_blank" rel="noopener">
-        📄 Try Beta Online Maze
-      </a>
-    </div>
+<!-- Exit Intent Popup -->
+<div id="exitPopup" style="
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.6);
+  z-index:9999;
+  justify-content:center;
+  align-items:center;
+">
+  <div style="
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    max-width:400px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  ">
+   <span onclick="document.getElementById('exitPopup').style.display='none'" 
+          style="
+            position:absolute;
+            top:10px;
+            left:10px;
+            font-size:20px;
+            font-weight:bold;
+            color:#666;
+            cursor:pointer;
+          ">
+      ✖
+    </span>
+    <h2>Try out our new online worksheet</h2>
+    <p>Before you go, check out our interactive reading worksheet designed to make learning fun!</p>
+    <a href="https://learningwithlukeybuke.com/Learning/thanks/readingworksheet1.html" 
+       target="_blank" 
+       style="
+         display:inline-block;
+         margin-top:10px;
+         padding:10px 20px;
+         background:#007bff;
+         color:#fff;
+         text-decoration:none;
+         border-radius:5px;
+       ">
+      📄 Open Worksheet
+    </a>
   </div>
+</div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const popup = document.getElementById('exitPopup');
-      const closeBtn = document.getElementById('exitPopupClose');
-
-      function showPopup() {
-        popup.style.display = 'flex';
-      }
-      function hidePopup() {
-        popup.style.display = 'none';
-      }
-
-      closeBtn.addEventListener('click', hidePopup);
-
-      // Exit intent: when mouse leaves window at top
-      document.addEventListener('mouseout', function (e) {
-        if (e.clientY <= 0) {
-          showPopup();
-        }
-      });
-    });
-  </script>
+<script>
+  // Show popup when mouse leaves window at the top (exit intent)
+  document.addEventListener('mouseout', function(e) {
+    if (e.clientY < 10) {
+      document.getElementById('exitPopup').style.display = 'flex';
+    }
+  });
+</script>
          </body>
 
         <!-- Bootstrap core JS-->
