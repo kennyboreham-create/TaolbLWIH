@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maze Draw Challenge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: sans-serif; background:#f5f5f5; margin:0; padding:0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 12px; }
+  h1 { font-size: 1.2rem; margin: 8px 0; }
+  #ui { display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+  #status { font-weight:bold; }
+  button { padding:8px 12px; font-weight:bold; }
+  canvas { background:#fff; border:2px solid #333; touch-action:none; display:block; width:100%; height:auto; }
+  .note { font-size:0.9rem; color:#555; margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Draw from Start to Exit without touching the walls!</h1>
+  <div id="ui">
+    <button id="resetBtn">Restart</button>
+    <button id="newMazeBtn">New Maze</button>
+    <span id="status">Status: Ready</span>
+  </div>
+  <canvas id="maze" width="900" height="600"></canvas>
+  <div class="note">Desktop: click and hold to draw. Mobile: touch and drag. Start on the green circle and reach the red circle. Touching a wall restarts.</div>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('maze');
+  const ctx = canvas.getContext('2d');
+  const statusEl = document.getElementById('status');
+  const resetBtn = document.getElementById('resetBtn');
+  const newMazeBtn = document.getElementById('newMazeBtn');
+
+  const W = canvas.width, H = canvas.height;
+  // Fewer cells = bigger corridors
+  const cols = 15, rows = 10;
+  const cellW = W / cols, cellH = H / rows;
+  const wallColor = '#000';
+  const start = { x: 0, y: 0, r: 16, color: '#2ecc71' };
+  const end   = { x: cols - 1, y: rows - 1, r: 16, color: '#e74c3c' };
+
+  let maze = [];
+  let wallSegments = [];
+
+  // Maze generation (recursive backtracking)
+  function generateMaze() {
+    maze = Array(rows).fill().map(() =>
+      Array(cols).fill().map(() => ({ visited: false, walls: [true,true,true,true] }))
+    );
+    const dirs = [[0,-1,0],[1,0,1],[0,1,2],[-1,0,3]];
+    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} }
+    function carve(r,c){
+      maze[r][c].visited=true;
+      const order=[...dirs]; shuffle(order);
+      for(const [dx,dy,wall] of order){
+        const nr=r+dy,nc=c+dx;
+        if(nr>=0&&nr<rows&&nc>=0&&nc<cols&&!maze[nr][nc].visited){
+          maze[r][c].walls[wall]=false;
+          maze[nr][nc].walls[(wall+2)%4]=false;
+          carve(nr,nc);
+        }
+      }
+    }
+    carve(0,0);
+  }
+
+  function drawMaze() {
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle=wallColor; ctx.lineWidth=3; // thinner walls
+    wallSegments=[];
+
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const x=c*cellW,y=r*cellH;
+        const w=maze[r][c].walls;
+        if(w[0]) addWall(x,y,x+cellW,y);          // top
+        if(w[1]) addWall(x+cellW,y,x+cellW,y+cellH); // right
+        if(w[2]) addWall(x,y+cellH,x+cellW,y+cellH); // bottom
+        if(w[3]) addWall(x,y,x,y+cellH);          // left
+      }
+    }
+    drawCircle(start.x*cellW+cellW/2,start.y*cellH+cellH/2,start.r,start.color);
+    drawCircle(end.x*cellW+cellW/2,end.y*cellH+cellH/2,end.r,end.color);
+  }
+
+  function addWall(x1,y1,x2,y2){
+    wallSegments.push({x1,y1,x2,y2});
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  }
+
+  function drawCircle(x,y,r,color){
+    ctx.fillStyle=color; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+  }
+
+  // Collision detection
+  function linesIntersect(a,b,c,d,p,q,r,s){
+    const det=(c-a)*(s-q)-(r-p)*(d-b);
+    if(det===0) return false;
+    const lambda=((s-q)*(r-a)+(p-r)*(s-b))/det;
+    const gamma=((b-d)*(r-a)+(c-a)*(s-b))/det;
+    return (0<lambda&&lambda<1)&&(0<gamma&&gamma<1);
+  }
+  function hitsWall(x1,y1,x2,y2){
+    for(const w of wallSegments){
+      if(linesIntersect(x1,y1,x2,y2,w.x1,w.y1,w.x2,w.y2)) return true;
+    }
+    return false;
+  }
+
+  // Drawing logic
+  let drawing=false,touchedStart=false,won=false,lastPoint=null;
+  function getCanvasPoint(evt){
+    const rect=canvas.getBoundingClientRect();
+    const x=(evt.touches?evt.touches[0].clientX:evt.clientX)-rect.left;
+    const y=(evt.touches?evt.touches[0].clientY:evt.clientY)-rect.top;
+    const sx=canvas.width/rect.width, sy=canvas.height/rect.height;
+    return {x:x*sx,y:y*sy};
+  }
+  function inCircle(pt,circle){
+    const cx=circle.x*cellW+cellW/2, cy=circle.y*cellH+cellH/2;
+    return Math.hypot(pt.x-cx,pt.y-cy)<=circle.r;
+  }
+  function setStatus(msg){ statusEl.textContent='Status: '+msg; }
+  function resetGame(){ drawing=false;touchedStart=false;won=false;lastPoint=null;drawMaze();setStatus('Ready'); }
+
+  function handleStart(evt){
+    evt.preventDefault(); if(won) return;
+    const p=getCanvasPoint(evt);
+    drawing=true; touchedStart=inCircle(p,start); lastPoint=p;
+    setStatus(touchedStart?'Drawing...':'Start on green circle');
+  }
+  function handleMove(evt){
+    if(!drawing||won) return;
+    const p=getCanvasPoint(evt);
+    if(hitsWall(lastPoint.x,lastPoint.y,p.x,p.y)){
+      setStatus('You hit a wall! You lose.');
+      resetGame(); return;
+    }
+    ctx.strokeStyle='yellow'; ctx.lineWidth=4; // yellow path
+    ctx.beginPath(); ctx.moveTo(lastPoint.x,lastPoint.y); ctx.lineTo(p.x,p.y); ctx.stroke();
+    lastPoint=p;
+    if(touchedStart&&inCircle(p,end)){ won=true; setStatus('You win! 🎉'); }
+  }
+  function handleEnd(evt){ drawing=false; lastPoint=null; if(!won) setStatus('Lifted. Keep trying!'); }
+
+  canvas.addEventListener('mousedown',handleStart);
+  canvas.addEventListener('mousemove',handleMove);
+  window.addEventListener('mouseup',handleEnd);
+  canvas.addEventListener('touchstart',handleStart,{passive:false});
+  canvas.addEventListener('touchmove',handleMove,{passive:false});
+  canvas.addEventListener('touchend',handleEnd,{passive:false});
+
+  resetBtn.addEventListener('click',resetGame);
+  newMazeBtn.addEventListener('click',()=>{generateMaze();resetGame();});
+
+  generateMaze(); drawMaze();
+})();
+</script>
+
+</body>
+</html>
