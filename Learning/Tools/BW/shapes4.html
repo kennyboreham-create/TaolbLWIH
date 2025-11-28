@@ -147,9 +147,23 @@
   border-radius: 6px;
   cursor: pointer;
 }
+.logo {
+  position: absolute;   /* or use fixed if you want it always visible */
+  top: 10px;            /* distance from top */
+  right: 10px;           /* distance from left */
+  z-index: 1000;        /* ensures it stays above other elements */
+}
+
+.logo img {
+  height: 50px;         /* adjust size */
+  width: auto;
+}
   </style>
 </head>
 <body>
+   <div class="logo">
+  <a href="../../index.html"><img src="../../img/logonobg.png" alt="Learning With Lukey Buke Logo"></a>
+ </div>
   <div id="gameInfo">
     <h3>Level: <span id="level">1</span></h3>
     <h3>Points: <span id="points">0</span></h3>
