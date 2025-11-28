@@ -50,9 +50,51 @@
     .question { font-size: 24px; margin-bottom: 20px; }
     button { padding: 12px 20px; margin: 8px; font-size: 18px; cursor: pointer; }
     #result { font-size: 20px; margin-top: 20px; font-weight: bold; color: #0077cc; }
-  </style>
+
+
+    /* Make sure body takes full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Push footer to bottom */
+main {
+  flex: 1; /* fills available space */
+}
+
+footer {
+  background-color: #222;   /* dark background */
+  color: #fff;              /* light text */
+  padding: 15px 0;
+  text-align: center;
+}
+
+/* Footer nav styling */
+.footer-nav {
+  list-style: none;         /* remove bullets */
+  margin: 20 px;
+  padding: 0;
+  display: flex;            /* horizontal layout */
+  justify-content: center;  /* center links */
+  gap: 30px;                /* spacing between links */
+}
+
+.footer-nav li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer-nav li a:hover {
+  text-decoration: underline;
+}
+</style>
 </head>
 <body>
+  <main>
   <h1>Mivra's Vocabulary Game 2</h1>
   <div class="question" id="questionText">What does the word “honest” mean?</div>
   <div id="choices">
@@ -61,6 +103,22 @@
     <button onclick="checkAnswer('C')">C. Running fast</button>
   </div>
   <div id="result"></div>
+ </main>
+  <!-- Footer -->
+  
+     <nav class="">
+  <ul class="footer-nav">
+    <li class="">
+      <a class="" href="https://learningwithlukeybuke.com/Learning/index.html">Home</a>
+    </li>
+    <li class="">
+      <a class="" href="https://learningwithlukeybuke.com/Learning/reading.html">Reading</a>
+    </li>
+    <li class="">
+      <a class="" href="https://learningwithlukeybuke.com/Learning/Tools/KW/worksheet.html">Free Worksheet</a>
+    </li>
+  </ul>
+</nav>
 
   <script>
   const questions = [

@@ -47,9 +47,24 @@
 
  
  <link rel="stylesheet" href="style.css" />
+<style>
+.logo {
+  position: absolute;   /* or use fixed if you want it always visible */
+  top: 10px;            /* distance from top */
+  left: 10px;           /* distance from left */
+  z-index: 1000;        /* ensures it stays above other elements */
+}
 
+.logo img {
+  height: 50px;         /* adjust size */
+  width: auto;
+}
+ </style>
 </head>
 <body>
+   <div class="logo">
+  <a href="../index.html"><img src="../img/logonobg.png" alt="Learning With Lukey Buke Logo"></a>
+ </div>
   <div class="book" id="book">
     <div class="page left" id="leftPage"></div>
     <div class="page right" id="rightPage"></div>
