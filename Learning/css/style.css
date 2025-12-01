@@ -521,8 +521,8 @@ width: 100%;
     margin-top: 6rem;
     padding-top: 9rem;
     background:
-        url(../img/bg-top.png),
-        url(../img/map.png);
+        url(../img/bg-top.png);
+        
     background-position:
         center top,
         center center;
