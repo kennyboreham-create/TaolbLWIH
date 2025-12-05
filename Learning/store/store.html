@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning With Lukey Buke — Store</title>
+  <style>
+    :root {
+      --blue: #4DAAF2;
+      --yellow: #FFDD57;
+      --pink: #FF8FB1;
+      --white: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--white);
+      color: #333;
+    }
+
+    header {
+      background: var(--blue);
+      padding: 20px;
+      text-align: center;
+      color: var(--white);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    .store-container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background: var(--pink);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.03);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .product-title {
+      font-size: 1.25rem;
+      margin: 10px 0;
+      color: #000;
+    }
+
+    .product-price {
+      background: var(--yellow);
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .buy-btn {
+      display: inline-block;
+      background: var(--blue);
+      color: var(--white);
+      padding: 10px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .buy-btn:hover {
+      background: #2f8ed4;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      text-align: center;
+      background: var(--blue);
+      color: var(--white);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Learning With Lukey Buke — Store</h1>
+    <p>Activity books, and adventure books designed for kids!</p>
+  </header>
+
+  <section class="store-container">
+
+    <!-- Product 1 -->
+    <div class="product-card"><a href="product-11501.html">
+      <img src="img/mazecover.png" alt="Maze Journeys Book Cover" /></a>
+      <h2 class="product-title">Maze Journeys: The Adventures Of Lukey Buke</h2>
+      <p class="product-price">$5.99</p>
+      <p>Paperback maze book full of fun, kid-friendly puzzles and adventures.</p>
+      <a class="buy-btn" target="_blank" href="product-11501.html">Check it out</a>
+    </div>
+
+    <!-- Duplicate this block for more products -->
+    <div class="product-card"><a target="_blank" href="product-11502.html">
+      <img src="img/lb2cover.png" alt="Lukey Buke Book 2 Cover" /></a>
+      <h2 class="product-title">The Adventures Of Lukey Buke: A Beautiful Day For A Trip To Loxter</h2>
+      <p class="product-price">$4.99</p>
+      <p>More learning adventures are on the way!</p>
+      <a class="buy-btn" target="_blank"  href="product-11502.html">Check it out</a>
+    </div>
+
+    <div class="product-card"><a target="_blank"  href="product-11503.html">
+      <img src="img/lbcover2.jpg" alt="Coming Soon" /></a>
+      <h2 class="product-title">Loxter Has Many Friends: The Adventures Of Lukey Buke</h2>
+      <p class="product-price">$4.99</p>
+      <p>Loxter Has Many Friends: The Adventures Of Lukey BukeLukey finds himself in the middle of the lake in Loxter. He will need to learn the skill of compromise to make friends with a slithering creature from his past. Lukey will find his old friend Dras, the red dragon, along the path to making his new friend.</p>
+      <a class="buy-btn" target="_blank" href="product-11503.html">Check it out</a>
+    </div>
+
+    <div class="product-card"><a href="product-11504.html">
+      <img src="img/activitycover.jpg" alt="Coming Soon" /></a> 
+      <h2 class="product-title">A Great Day At Home Activity Book: Stem Activity Book</h2>
+      <p class="product-price">$3.99</p>
+      <p>Keep your kid busy for hours with this fun activity book for ages 6-10. Improve math, coding and reading skills with this progressive activity book designed to make learning fun.</p>
+      <a class="buy-btn" target="_blank" href="product-11504.html">Check it out</a>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>© 2025 Learning With Lukey Buke. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
