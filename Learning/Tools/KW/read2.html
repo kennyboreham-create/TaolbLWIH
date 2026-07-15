@@ -2,76 +2,110 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Zenth's Reading Game | Learning with Lukey Buke</title>
+  <title>Thyra's Reading Tool | Learning with Lukey Buke</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO -->
-  <meta name="description" content="Zenth’s Reading Game helps kids build confidence through repetition—listen to 50 words, read 15 sentences, and follow a 30-day routine for reading success.">
+  <meta name="description" content="Help kids learn to read with Thyra’s Reading Tool—featuring word repetition, sentence practice, and a 30-day routine designed for judgment-free progress.">
   <meta name="author" content="Kenny Boreham">
 
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css?family=Muli:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
   <!-- Styles -->
-  <style>
-    body { font-family: 'Muli', sans-serif; margin: 0; padding: 0; line-height: 1.6; }
-    nav { background: #222; }
-    nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
-    nav li { flex: 1 1 100%; text-align: center; padding: 10px; }
-    nav a { color: #fff; text-decoration: none; }
-    @media (min-width: 600px) { nav li { flex: 0 0 auto; } }
-
-    .container { padding: 16px; }
-    h1 { font-size: 1.6em; margin-bottom: 8px; }
-    .tool-box { background: #f9f9f9; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
-    button { padding: 12px 18px; font-size: 1em; border: none; border-radius: 6px; background: #007bff; color: #fff; cursor: pointer; width: 100%; }
-    button:hover { background: #0056b3; }
-    #wordBox, #wordBox2 { font-size: 1.4em; margin-top: 12px; text-align: center; }
-    #counter { font-weight: bold; margin-top: 12px; text-align: center; }
-  </style>
+  <link href="css/styles.css" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav>
-    <ul>
-      <li><a href="../../index.html">🏠 Home</a></li>
-      <li><a href="../../reading.html">📖 Reading Tools</a></li>
-      <li><a href="https://youtu.be/r7xJaix8tJ4" target="_blank">🎥 Tutorial Video</a></li>
-      <li><a href="../../math.html">🛠 Learning Tools</a></li>
-      <li><a href="worksheet.html" target="_blank">📄 Worksheets</a></li>
-      <li><a href="../../Blog/blog.html">📝 Blog & Tips</a></li>
-      <li><a href="../../about.html">ℹ️ About Us</a></li>
-      <li><a href="../../characters/Velari.html">📬 Zenth</a></li>
-    </ul>
-  </nav>
+  <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+          
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">
+              
+                <span class="d-block d-lg-none"></span>
+                
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav">
+                  <!-- Added SEO-friendly nav items -->
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../index.html"">🏠 Home</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../math.html">📖 Math Tools</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="https://youtu.be/r7xJaix8tJ4" target="_blank">🎥 Tutorial Video</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../math.html">🛠 Learning Tools</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="worksheet/mathsheet1.html" target="_blank">📄 Worksheets</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../Blog/blog.html">📝 Blog & Tips</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../about.html">ℹ️ About Us</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../characters/humans.html">📬 Riley</a></li>
+             <!-- Keep your original counter -->
+                    <li id="counter">Points: <div >0</div>
+                    
+                </ul>
+                 
+            </div>
+        </nav>
 
-  <!-- Page Content -->
-  <div class="container">
-    <h1>Zenth's <span style="color:#007bff;">Reading Tool</span></h1>
+        <!-- Page Content-->
+        
+        <div class="container-fluid p-0">
+            <!-- About-->
+            <section class="resume-section" id="about">
+                <div class="resume-section-content">
+                    <h1 class="mb-0">
+                        Thyra's  
+                        <span class="text-primary">Reading Tool</span>
+                        <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle w-25 mx-auto mb-2" src="../../characters/images/thyra1.png" alt="..." /></span>
+                    </h1>
+                   <p><strong>Step 1:</strong> Begin with the introductory activity.</p>
+                    <p><strong>Step 2:</strong> Listen to 50 words to earn 50 points.</p>
+                    <p><strong>Step 3:</strong> Read 15 sentences in the Sentence Box.</p>
+                    <p><strong>Step 4:</strong> Continue this routine for 30 days, then advance to the next level.</p>
+                    <p><a href="https://youtu.be/r7xJaix8tJ4" target="_blank">📺 Watch the Tutorial</a></p>
+                                  
+                </div>
+            </section>
+            <hr class="m-0" />
+           
+            <hr class="m-0" />
+           
+            <hr class="m-0" />
+           
+            <hr class="m-0" />
+            <!-- Education-->
+            <section class="resume-section" id="wordRead" id="page-top" >
+     <h2>The Word Repeater</h2>
+</head>
+    <button class="fun-button " id="hey" >Click Me!</button>
+  <div id="wordBox">---<br><small>Click to hear!</small></div><br><br>
+  
 
-    <p><strong>Step 1:</strong> Use the word repeater to hear 3‑letter words.</p>
-    <p><strong>Step 2:</strong> Listen to 50 words (earn 50 points).</p>
-    <p><strong>Step 3:</strong> Read 15 sentences in the Sentence Box.</p>
-    <p><strong>Step 4:</strong> Repeat for 30 days, then move to Valeri Tool #2.</p>
-    <p><a href="https://youtu.be/r7xJaix8tJ4" target="_blank">📺 Watch the Tutorial</a></p>
+  
 
-    <!-- Word Repeater -->
-    <div class="tool-box" id="wordRead">
-      <h2>The Word Repeater</h2>
-      <button id="hey">Click Me!</button>
-      <div id="wordBox">---<br><small>Click to hear!</small></div>
-      <div id="counter">Points: 0</div>
-    </div>
 
-    <!-- Sentence Box -->
-    <div class="tool-box">
-      <h2>Sentence Box</h2>
-      <button id="hey2">Click Me!</button>
-      <div id="wordBox2">The car went fast</div>
-    </div>
-  </div>
+            </section>
+            <hr class="m-0" />
+           
+            
+                    <!-- Sentence Box -->
+                     <section class="resume-section" id="wordRead" id="page-top" >
+                      
+                    <div class="tool-box">
+                      <h2>Sentence Box</h2>
+                      <button class="fun-button " id="hey2">Click Me!</button><br><br>
+                      <div id="wordBox2">The car went fast</div>
+                    </div>
+                  </div>
+                  
+                  
+
+                     
+                        
+                    
+               
+            </section>
+            <hr class="m-0" />
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
