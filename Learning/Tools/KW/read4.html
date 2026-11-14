@@ -113,9 +113,11 @@
     // Hamburger toggle
     const hamburger = document.getElementById("hamburger");
     const navLinks = document.getElementById("navLinks");
-    hamburger.addEventListener("click", () => {
-      navLinks.style.display = navLinks.style.display === "flex" ? "none" : "flex";
-    });
+    if (hamburger && navLinks) {
+      hamburger.addEventListener("click", () => {
+        navLinks.style.display = navLinks.style.display === "flex" ? "none" : "flex";
+      });
+    }
 
     // Word and sentence arrays
     const words = ["honest","wonder","choose","inside","listen","bright","simple","follow","center","number","friend","answer","better","moment","reason","create","belief","change","excite","nature","travel","learn","caring","effort","future","helped","shared","asking","finish","artist","really","strong","school","animal","person","planet","result","silent","safety","modern","little","object","return","action","circle","family","energy","notice","manage","memory","motion","choice","pretty","honor","growth"];
