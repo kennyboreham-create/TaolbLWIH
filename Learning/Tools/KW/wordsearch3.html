@@ -191,35 +191,81 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       cells.push(cell);
     }
 
-    // Place words horizontally
-    function placeWords() {
-      words.forEach(word => {
+    function canPlaceWord(word, row, col, dRow, dCol) {
+      for (let i = 0; i < word.length; i++) {
+        const r = row + dRow * i;
+        const c = col + dCol * i;
+        if (r < 0 || r >= gridSize || c < 0 || c >= gridSize) return false;
+        const existing = cells[r * gridSize + c].textContent;
+        if (existing && existing !== word[i]) return false;
+      }
+      return true;
+    }
+
+    function writeWord(word, row, col, dRow, dCol) {
+      for (let i = 0; i < word.length; i++) {
+        const cell = cells[(row + dRow * i) * gridSize + (col + dCol * i)];
+        cell.textContent = word[i];
+        const prev = cell.dataset.word ? cell.dataset.word + "," : "";
+        cell.dataset.word = prev + word;
+        cell.dataset.part = i;
+      }
+    }
+
+    function tryPlaceAll() {
+      const directions = [
+        [0, 1], [0, -1], [1, 0], [-1, 0],
+        [1, 1], [1, -1], [-1, 1], [-1, -1]
+      ];
+      const toPlace = words.slice().sort(function (a, b) { return b.length - a.length; });
+      for (let w = 0; w < toPlace.length; w++) {
+        const word = toPlace[w];
         let placed = false;
-        while (!placed) {
+        const dirs = directions.slice();
+        for (let i = dirs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const tmp = dirs[i]; dirs[i] = dirs[j]; dirs[j] = tmp;
+        }
+        for (let attempt = 0; attempt < 250 && !placed; attempt++) {
+          const dir = dirs[attempt % dirs.length];
           const row = Math.floor(Math.random() * gridSize);
-          const col = Math.floor(Math.random() * (gridSize - word.length));
-          let fits = true;
-
-          for (let i = 0; i < word.length; i++) {
-            const index = row * gridSize + col + i;
-            if (cells[index].textContent) {
-              fits = false;
-              break;
-            }
-          }
-
-          if (fits) {
-            for (let i = 0; i < word.length; i++) {
-              const index = row * gridSize + col + i;
-              cells[index].textContent = word[i];
-              cells[index].dataset.word = word;
-              cells[index].dataset.part = i;
-            }
+          const col = Math.floor(Math.random() * gridSize);
+          if (canPlaceWord(word, row, col, dir[0], dir[1])) {
+            writeWord(word, row, col, dir[0], dir[1]);
             placed = true;
           }
         }
-      });
+        if (!placed) {
+          for (let d = 0; d < dirs.length && !placed; d++) {
+            const dir = dirs[d];
+            for (let row = 0; row < gridSize && !placed; row++) {
+              for (let col = 0; col < gridSize && !placed; col++) {
+                if (canPlaceWord(word, row, col, dir[0], dir[1])) {
+                  writeWord(word, row, col, dir[0], dir[1]);
+                  placed = true;
+                }
+              }
+            }
+          }
+        }
+        if (!placed) return false;
+      }
+      return true;
     }
+
+    function placeWords() {
+      const maxRounds = 25;
+      for (let round = 0; round < maxRounds; round++) {
+        cells.forEach(function (cell) {
+          cell.textContent = "";
+          delete cell.dataset.word;
+          delete cell.dataset.part;
+        });
+        if (tryPlaceAll()) return;
+      }
+      console.warn("Word search: not every word could be placed.");
+    }
+
 
     // Fill remaining cells with random letters
     function fillGrid() {
@@ -303,11 +349,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.addEventListener("mouseup", () => {
   if (selectedCells.length > 0) {
     const selectedWord = selectedCells.map(c => c.textContent).join("");
-    if (words.includes(selectedWord)) {
+    const reversedWord = selectedWord.split("").reverse().join("");
+    const matchedWord = words.includes(selectedWord) ? selectedWord : (words.includes(reversedWord) ? reversedWord : null);
+    if (matchedWord) {
       selectedCells.forEach(c => c.classList.remove("selected"));
       selectedCells.forEach(c => c.classList.add("found"));
       for (let li of wordList) {
-        if (li.textContent === selectedWord) {
+        if (li.textContent === matchedWord) {
           li.classList.add("found");
         }
       }
