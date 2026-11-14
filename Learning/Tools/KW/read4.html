@@ -16,6 +16,22 @@
 
   <!-- Styles -->
   <link href="css/styles.css" rel="stylesheet" />
+
+  <style>
+    #scoreboard { list-style: none; margin-top: 1.2rem; font-size: 1.35rem; font-weight: 700; line-height: 1.4; }
+    .round-progress { width: 280px; max-width: 90%; height: 14px; margin: 16px 0 6px; background: #e8e4f0; border-radius: 999px; overflow: hidden; }
+    .round-progress-bar { height: 100%; width: 0%; background-color: #6222CC; transition: width .25s ease; }
+    .round-progress-label { font-size: 1rem; margin-bottom: 10px; }
+    .game-message { min-height: 1.4em; font-size: 1.2rem; font-weight: 700; margin-top: 10px; }
+    .game-message.is-ok { color: #2e7d32; }
+    .round-complete { position: fixed; inset: 0; background: rgba(4,0,11,.55); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+    .round-complete[hidden] { display: none !important; }
+    .round-complete-card { background: #fff; color: #04000B; padding: 28px 32px; border-radius: 16px; text-align: center; max-width: 420px; box-shadow: 0 8px 30px rgba(0,0,0,.2); }
+    .round-complete-card h2 { margin-top: 0; }
+    .round-complete-card .fun-button { margin: 8px; }
+    .next-tool-btn { display: inline-block; text-decoration: none; }
+  </style>
+
 </head>
 <body>
 
@@ -31,16 +47,18 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav">
                   <!-- Added SEO-friendly nav items -->
-            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../index.html"">🏠 Home</a></li>
-            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../math.html">📖 Math Tools</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../index.html">🏠 Home</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../reading.html">📖 Reading Tools</a></li>
             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="https://youtu.be/r7xJaix8tJ4" target="_blank">🎥 Tutorial Video</a></li>
-            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../math.html">🛠 Learning Tools</a></li>
-            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="worksheet/mathsheet1.html" target="_blank">📄 Worksheets</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../index.html">🛠 Learning Tools</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="worksheet.html" target="_blank">📄 Worksheets</a></li>
             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../Blog/blog.html">📝 Blog & Tips</a></li>
             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../about.html">ℹ️ About Us</a></li>
-            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../characters/humans.html">📬 Riley</a></li>
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../characters/Velari.html">📬 Vorran</a></li>
              <!-- Keep your original counter -->
-                    <li id="counter">Points: <div >0</div>
+                                        <li id="scoreboard">
+                      <div id="counter">Points: <span id="pointsValue">0</span></div>
+                    </li>
                     
                 </ul>
                  
@@ -54,14 +72,13 @@
             <section class="resume-section" id="about">
                 <div class="resume-section-content">
                     <h1 class="mb-0">
-                        V's  
+                        Vorran's  
                         <span class="text-primary">Reading Tool</span>
-                        <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle w-25 mx-auto mb-2" src="../../characters/images/thyra1.png" alt="..." /></span>
+                        <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle w-25 mx-auto mb-2" src="../../characters/images/vorran1.png" alt="..." /></span>
                     </h1>
-                   <p><strong>Step 1:</strong> Begin with the introductory activity.</p>
-                    <p><strong>Step 2:</strong> Listen to 50 words to earn 50 points.</p>
-                    <p><strong>Step 3:</strong> Read 15 sentences in the Sentence Box.</p>
-                    <p><strong>Step 4:</strong> Continue this routine for 30 days, then advance to the next level.</p>
+                                      <p>Play a short round of 10 words in the Word Repeater.</p>
+                    <p>Click "Click Me!" to hear a word, then try the Sentence Box too.</p>
+                    <p>Finish 10 words to complete the round and go to the next tool.</p>
                     <p><a href="https://youtu.be/r7xJaix8tJ4" target="_blank">📺 Watch the Tutorial</a></p>
                                   
                 </div>
@@ -76,6 +93,12 @@
             <!-- Education-->
             <section class="resume-section" id="wordRead" id="page-top" >
      <h2>The Word Repeater</h2>
+     <div class="round-progress" id="roundProgress">
+       <div class="round-progress-bar" id="roundProgressBar"></div>
+     </div>
+     <div class="round-progress-label" id="roundProgressLabel">Word 0 / 10</div>
+     <div id="gameMessage" class="game-message" role="status" aria-live="polite"></div>
+
 </head>
     <button class="fun-button " id="hey" >Click Me!</button>
   <div id="wordBox">---<br><small>Click to hear!</small></div><br><br>
@@ -107,6 +130,15 @@
             </section>
             <hr class="m-0" />
 
+            <div id="roundComplete" class="round-complete" hidden>
+              <div class="round-complete-card">
+                <h2>Round complete!</h2>
+                <p id="roundSummary"></p>
+                <button type="button" class="fun-button" id="playAgainBtn">Play again</button>
+                <a class="fun-button next-tool-btn" id="nextToolBtn" href="../../reading.html">Next tool</a>
+              </div>
+            </div>
+
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
@@ -125,34 +157,100 @@
       "She gave an honest answer to the teacher.","We wonder what the bright object is in space.","I choose to follow my friend to the park.","The center of the circle is marked with red.","He listened inside the room for the silent sound.","We create art with simple tools and effort.","The animal showed caring behavior toward others.","I learned a better way to solve the problem.","This moment is full of change and growth.","The artist painted a pretty planet with motion.","She helped manage the return of each object.","They showed real honor during the school event."
     ];
 
+    const wordList = (typeof words !== "undefined") ? words : words2;
+    const ROUND_SIZE = 10;
     let count = 0;
+    let lastWord = null;
+    let lastSentence = null;
     const counterDiv = document.getElementById("counter");
+    const pointsEl = document.getElementById("pointsValue");
+    const streakEl = document.getElementById("streakValue");
+    const msgEl = document.getElementById("gameMessage");
+    const barEl = document.getElementById("roundProgressBar");
+    const labelEl = document.getElementById("roundProgressLabel");
+    const overlayEl = document.getElementById("roundComplete");
+    const summaryEl = document.getElementById("roundSummary");
+    const playAgainBtn = document.getElementById("playAgainBtn");
+
+    function pickAvoidRepeat(list, last) {
+      if (!list || !list.length) return "";
+      if (list.length === 1) return list[0];
+      let next = list[Math.floor(Math.random() * list.length)];
+      let guard = 0;
+      while (next === last && guard < 25) {
+        next = list[Math.floor(Math.random() * list.length)];
+        guard++;
+      }
+      return next;
+    }
+    function updateScoreboard() {
+      if (pointsEl) pointsEl.textContent = count;
+      else if (counterDiv) counterDiv.textContent = "Points: " + count;
+    }
+    function updateProgress() {
+      if (barEl) barEl.style.width = Math.min(100, (count / ROUND_SIZE) * 100) + "%";
+      if (labelEl) labelEl.textContent = "Word " + Math.min(count, ROUND_SIZE) + " / " + ROUND_SIZE;
+    }
+    function showMessage(text, kind) {
+      if (!msgEl) return;
+      msgEl.textContent = text || "";
+      msgEl.className = "game-message" + (kind ? " is-" + kind : "");
+    }
+    function finishRound() {
+      if (summaryEl) summaryEl.textContent = "You listened to " + count + " words. Nice reading!";
+      if (overlayEl) overlayEl.hidden = false;
+      if (typeof confetti === "function") {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      }
+    }
+    function resetRound() {
+      count = 0;
+      lastWord = null;
+      if (overlayEl) overlayEl.hidden = true;
+      const box = document.getElementById("wordBox");
+      if (box) box.innerHTML = "---<br><small>Click to hear!</small>";
+      showMessage("");
+      updateScoreboard();
+      updateProgress();
+    }
+    if (playAgainBtn) playAgainBtn.addEventListener("click", resetRound);
 
     function getRandomWord() {
-      return words[Math.floor(Math.random() * words.length)];
+      return pickAvoidRepeat(wordList, lastWord);
     }
     function speakWord(word) {
-      const utterance = new SpeechSynthesisUtterance(word);
-      speechSynthesis.speak(utterance);
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(word);
+        speechSynthesis.speak(utterance);
+      } catch (e) {}
     }
 
     document.getElementById("hey").addEventListener("click", () => {
+      if (overlayEl && !overlayEl.hidden) return;
       const word = getRandomWord();
+      lastWord = word;
       document.getElementById("wordBox").textContent = word;
       count++;
-      counterDiv.textContent = "Points: " + count;
+      updateScoreboard();
+      updateProgress();
       speakWord(word);
-
-      if (count >= 50) {
-        alert("Good Job!");
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      if (count >= ROUND_SIZE) {
+        showMessage("Round complete!", "ok");
+        finishRound();
       }
     });
 
+    function getRandomSentence() {
+      lastSentence = pickAvoidRepeat(sent, lastSentence);
+      return lastSentence;
+    }
     document.getElementById("hey2").addEventListener("click", () => {
-      const sentence = sent[Math.floor(Math.random() * sent.length)];
+      const sentence = getRandomSentence();
       document.getElementById("wordBox2").textContent = sentence;
+      speakWord(sentence);
     });
+
   </script>
 </body>
 </html>
