@@ -52,7 +52,7 @@
     `Page 3: <br><br><p> Buck wore boots before he could walk.</p>`
   ],
   [
-    `page 4: <br><br><p>He helped his dad fix fences and feed horses.</p>`,
+    `Page 4: <br><br><p>He helped his dad fix fences and feed horses.</p>`,
     `Page 5: <br><br><p>Buck loved the sound of hooves on dry dirt.</p>`
   ],
     [
@@ -60,7 +60,7 @@
     `Page 7: <br><br><p>Buck learned to ride a horse named Dusty.</p>`
   ],
   [
-    `page 8: <br><br><p>He practiced lassoing with a rope made from old wire.</p>`,
+    `Page 8: <br><br><p>He practiced lassoing with a rope made from old wire.</p>`,
     `Page 9: <br><br><p>Buck watched cowboys at the town rodeo every summer.</p>`
   ],
     [
@@ -131,7 +131,7 @@
     `Page 3: <br><br><p>  Buck and Dad had fun.<br><br> Fun, fun, fun!</p>`
   ],
   [
-    `page 4: <br><br><p>“Go up,” said Dad.<br><br> “Go up, Buck.”<br></p>`,
+    `Page 4: <br><br><p>“Go up,” said Dad.<br><br> “Go up, Buck.”<br></p>`,
     `Page 5: <br><br><p>Buck ran.<br><br> Buck ran up.<br><br> Buck ran far.</p>`
   ],
     [
@@ -139,7 +139,7 @@
     `Page 7: <br><br><p>“See sun,” said Buck.<br><br> “See sun, Dad.”</p>`
   ],
   [
-    `page 8: <br><br><p>“See rock,” said Dad.<br><br> “See big rock.”</p>`,
+    `Page 8: <br><br><p>“See rock,” said Dad.<br><br> “See big rock.”</p>`,
     `Page 9: <br><br><p>Buck sat.<br> Dad sat.<br><br> Buck and Dad sat.</p>`
   ],
     [
@@ -242,7 +242,7 @@
 `
   ],
   [
-    `Want to write your own story?<br><br>`,
+    `Want to create your own book?<br><br>`,
     `<div style="
      width: 100%; height: 100%;
      background-image: url('img/buck3back.png');
@@ -284,7 +284,7 @@
     `Page 3: <br><br><p>  Buck and Dad had fun.<br><br> Fun, fun, fun!</p>`
   ],
   [
-    `page 4: <br><br><p>“Go up,” said Dad.<br><br> “Go up, Buck.”<br></p>`,
+    `Page 4: <br><br><p>“Go up,” said Dad.<br><br> “Go up, Buck.”<br></p>`,
     `Page 5: <br><br><p>Buck ran.<br><br> Buck ran up.<br><br> Buck ran far.</p>`
   ],
     [
@@ -292,7 +292,7 @@
     `Page 7: <br><br><p>“See sun,” said Buck.<br><br> “See sun, Dad.”</p>`
   ],
   [
-    `page 8: <br><br><p>“See rock,” said Dad.<br><br> “See big rock.”</p>`,
+    `Page 8: <br><br><p>“See rock,” said Dad.<br><br> “See big rock.”</p>`,
     `Page 9: <br><br><p>Buck sat.<br> Dad sat.<br><br> Buck and Dad sat.</p>`
   ],
     [
