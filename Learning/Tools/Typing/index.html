@@ -93,12 +93,28 @@
 </div>
 </body>
 
+
+<script>
+function showPracticeBanner(msg) {
+  let el = document.getElementById("gameBanner");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "gameBanner";
+    el.setAttribute("role", "status");
+    el.style.cssText = "margin:12px 20px;padding:12px 14px;border-radius:8px;background:#eef3ff;color:#222;font-weight:700;max-width:520px;";
+    const kb = document.querySelector(".keyboard") || document.body;
+    kb.parentNode.insertBefore(el, kb);
+  }
+  el.textContent = msg;
+}
+</script>
+
 <script>
 
     
     function main1() {
 
-  alert("This is a practive board. \n It is a great way to keep your head up while typing. \n Have Fun!!");
+  showPracticeBanner("This is a practive board. \n It is a great way to keep your head up while typing. \n Have Fun!!");
 
 
 }

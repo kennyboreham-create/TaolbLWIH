@@ -1,4 +1,41 @@
 
+function ensureTypingStyle() {
+  if (document.getElementById("typingFeedbackStyle")) return;
+  const s = document.createElement("style");
+  s.id = "typingFeedbackStyle";
+  s.textContent = ".key-target{outline:3px solid #6222CC; background:#ffe066 !important;} .key-wrong{background:#e57373 !important;} #gameBanner{margin:10px 0;padding:10px 12px;border-radius:8px;background:#eef3ff;color:#222;font-weight:700;max-width:520px;}";
+  document.head.appendChild(s);
+}
+function showBanner(msg) {
+  ensureTypingStyle();
+  let el = document.getElementById("gameBanner");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "gameBanner";
+    el.setAttribute("role", "status");
+    const box = document.getElementById("gamebox");
+    if (box && box.parentNode) box.parentNode.insertBefore(el, box);
+    else document.body.insertBefore(el, document.body.firstChild);
+  }
+  el.textContent = msg || "";
+}
+function highlightTarget() {
+  ensureTypingStyle();
+  document.querySelectorAll(".key-target").forEach(el => el.classList.remove("key-target"));
+  if (typeof gameON !== "undefined" && gameON >= 2) return;
+  if (!wordSplit || !wordSplit[i]) return;
+  const id = String(wordSplit[i].toUpperCase().charCodeAt(0) - 64);
+  const el = document.getElementById(id);
+  if (el) el.classList.add("key-target");
+}
+function flashWrong(id) {
+  const el = document.getElementById(String(id));
+  if (!el) return;
+  el.classList.add("key-wrong");
+  setTimeout(() => el.classList.remove("key-wrong"), 250);
+}
+
+
 let letter = "";
 let code = 0;
 const word = ["HOOK", "LUCK", "COOK", "TOOL","SOUP","TILT","WALL","HOPE","LATE","RACE","RICE","WALK","TALK","BONE","HOME"];
@@ -273,14 +310,12 @@ document.addEventListener('keydown', function(event) {
 
 
     if (keyPress == compare){
-
-     //document.getElementById().style.color = 'red';
       i ++;
       code ++;
-      
-
+      highlightTarget();
+    } else if (keyPress) {
+      flashWrong(keyPress);
     }
-
     if (i == 4){
 
         i = 0;
@@ -294,6 +329,7 @@ document.addEventListener('keydown', function(event) {
     
       case 0:
         document.getElementById("gamebox").innerHTML = wordSplit[0] + wordSplit[1] + wordSplit[2] + wordSplit[3] ;
+    highlightTarget();
         break;
       case 1:
         document.getElementById("gamebox").innerHTML = `<span style="color: red;">${wordSplit[0]}</span>` + wordSplit[1] + wordSplit[2] + wordSplit[3] ;
@@ -367,7 +403,7 @@ function main1() {
 
     gameON = 0;
     points = 0;
-    alert("Keep your left finger on the F key \n Keep your right finger on the j key \n Try and keep your eyes on the screen \n Type as many words as you can");
+    showBanner("Keep your left finger on the F key \n Keep your right finger on the j key \n Try and keep your eyes on the screen \n Type as many words as you can");
     startTimer();
     level1();
 
