@@ -89,3 +89,16 @@ body {
 .sidebar a:hover {
     background-color: #575757;
 }
+
+/* Site-colour accent (light touch) */
+.sidebar {
+    border-right: 4px solid #6222CC;
+}
+.sidebar a:hover {
+    background-color: #6222CC;
+    color: #fff;
+}
+.container .box {
+    border: 2px solid #FBA504;
+    box-shadow: 0 0 0 3px rgba(98, 34, 204, 0.08);
+}
