@@ -2,24 +2,6 @@
 
   allBooks = {
 
-  pages1:  [
-[
-`COVER OF BOOK`
-],  
-[
-    ``,
-    `<p>Page 2: The story unfolds...</p>`
-  ],
-  [
-    `<p>Page 3: A twist appears...</p>`,
-    `<p>Page 4: The hero rises...</p>`
-  ],
-  [
-    `<p>Page 5: Darkness falls...</p>`,
-    `<p>Page 6: Light returns...</p>`
-  ]
-],
-
   buck3:  [
 [
 `<div style="
