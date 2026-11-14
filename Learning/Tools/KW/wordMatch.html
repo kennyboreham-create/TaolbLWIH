@@ -90,11 +90,28 @@
       margin-top: 10px;
     }
   </style>
+
+  <style>
+    #gameBanner, #gameMessage, #creatureDescription {
+      margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+      background: #eef3ff; color: #0b3d91; font-weight: 700; min-height: 1.4em;
+    }
+    .drag-hint { font-weight: 800; margin: 8px 0 12px; }
+    .game-next-btn, .next-tool-btn {
+      display: inline-block; margin-top: 10px; margin-right: 8px;
+      padding: 8px 14px; background: #0b3d91; color: #fff !important;
+      text-decoration: none; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;
+    }
+    .word.picked, .shape.picked { outline: 3px solid #f5c518; }
+  </style>
+
 </head>
 <body>
 <a href="https://learningwithlukeybuke.com/Learning/index.html">Learning With Lukey Buke</a>
   <h1>🧠 Zarnok's Word Match Game</h1>
   <div id="levelIndicator">Level 1</div>
+    <p class="drag-hint">Drag me! Or tap a word, then tap its meaning.</p>
+    <div id="gameBanner" role="status"></div>
   <div id="gameContainer">
     <div id="words"></div>
     <div id="definitions"></div>
@@ -356,6 +373,26 @@
 
   console.log(levels.length);
     let currentLevel = 0;
+
+    let selectedWordId = null;
+    function showBanner(msg) {
+      const el = document.getElementById("gameBanner");
+      if (el) el.textContent = msg || "";
+    }
+    function tryMatch(draggedId, target) {
+      if (!draggedId || !target) return;
+      if (draggedId === target.dataset.match) {
+        target.classList.add("matched");
+        target.textContent += " ✅ (" + draggedId + ")";
+        const draggedEl = document.getElementById(draggedId);
+        if (draggedEl) draggedEl.remove();
+        showBanner("Nice match!");
+        checkLevelComplete();
+      } else {
+        showBanner("Try again!");
+      }
+    }
+
     const wordsContainer = document.getElementById("words");
     const defsContainer = document.getElementById("definitions");
     const levelIndicator = document.getElementById("levelIndicator");
@@ -377,6 +414,12 @@
         div.addEventListener("dragstart", e => {
           e.dataTransfer.setData("text/plain", word.id);
         });
+        div.addEventListener("click", () => {
+          document.querySelectorAll(".word.picked").forEach(w => w.classList.remove("picked"));
+          selectedWordId = word.id;
+          div.classList.add("picked");
+          showBanner("Now tap a meaning to place it.");
+        });
       });
 
       level.definitions.forEach(def => {
@@ -391,36 +434,35 @@
        div.addEventListener("drop", e => {
   e.preventDefault();
   const draggedId = e.dataTransfer.getData("text/plain");
-  const target = e.currentTarget; // ✅ This ensures correct reference
-
-  if (draggedId === target.dataset.match) {
-    target.classList.add("matched");
-    target.textContent += ` ✅ (${draggedId})`;
-    const draggedEl = document.getElementById(draggedId);
-    if (draggedEl) draggedEl.remove();
-    checkLevelComplete();
-  } else {
-    alert("❌ Try again!");
-  }
+  tryMatch(draggedId, e.currentTarget);
 });
+        div.addEventListener("click", e => {
+          if (selectedWordId) {
+            tryMatch(selectedWordId, e.currentTarget);
+            selectedWordId = null;
+            document.querySelectorAll(".word.picked").forEach(w => w.classList.remove("picked"));
+          }
+        });
       });
     }
 
     function checkLevelComplete() {
       const matched = defsContainer.querySelectorAll(".matched").length;
       if (matched === levels[currentLevel].definitions.length) {
-        setTimeout(() => {
-          alert(`🎉 Level ${currentLevel + 1} complete!`);
-          currentLevel++;
-          
-          if (currentLevel < 21) {
-            loadLevel(currentLevel);
-          } else {
-            alert("🏆 You completed all levels!");
-            currentLevel = 0;
-            loadLevel(currentLevel);
-          }
-        }, 300);
+        showBanner("Level " + (currentLevel + 1) + " complete!");
+        const banner = document.getElementById("gameBanner");
+        const next = document.createElement("button");
+        next.className = "game-next-btn";
+        currentLevel++;
+        if (currentLevel < levels.length) {
+          next.textContent = "Next level";
+          next.onclick = () => { showBanner(""); loadLevel(currentLevel); };
+        } else {
+          showBanner("You completed all " + levels.length + " levels!");
+          next.textContent = "Play again";
+          next.onclick = () => { currentLevel = 0; showBanner(""); loadLevel(currentLevel); };
+        }
+        if (banner) banner.appendChild(next);
       }
     }
 

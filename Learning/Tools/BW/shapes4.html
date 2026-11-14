@@ -167,6 +167,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KN5WH259');</script>
 <!-- End Google Tag Manager -->
+
+  <style>
+    #gameBanner, #gameMessage, #creatureDescription, #question {
+      margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+      font-weight: 700; min-height: 1.4em;
+    }
+    #gameBanner, #gameMessage, #creatureDescription { background: #f3e9ff; color: #2e004d; }
+    .drag-hint { font-weight: 800; margin: 8px 0 12px; }
+    .game-next-btn, .next-tool-btn {
+      display: inline-block; margin-top: 10px; margin-right: 8px;
+      padding: 8px 14px; background: #5a1a8a; color: #fff !important;
+      text-decoration: none; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;
+    }
+    .shape.picked { outline: 3px solid #f5c518; }
+    
+  </style>
+
 </head>
 <body>
    <div class="logo">
@@ -187,6 +204,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
     <div id="instruction">Loading...</div>
+    <p class="drag-hint">Drag me! Or tap a shape, then tap the board.</p>
     <div id="canvas" ondragover="allowDrop(event)" ondrop="dropShape(event)"></div>
     <div>
     <button id="checkBtn" onclick="checkGroup()">Check Group</button><space> </space><button id="speechToggleBtn" onclick="toggleSpeech()">Speech: OFF</button></div>
@@ -197,6 +215,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     let level = 1;
     let points = 0;
     let targetGroup = {};
+
+    
+    let selectedShapeType = null;
+    let dragging = false;
+    document.querySelectorAll('.shape[draggable="true"]').forEach(shape => {
+      shape.addEventListener("dragstart", () => { dragging = true; });
+      shape.addEventListener("click", () => {
+        if (shape.classList.contains("dropped")) return;
+        document.querySelectorAll(".shape.picked").forEach(s => s.classList.remove("picked"));
+        selectedShapeType = shape.getAttribute("data-shape");
+        shape.classList.add("picked");
+      });
+    });
+    document.addEventListener("dragend", () => { setTimeout(() => { dragging = false; }, 0); });
+    document.getElementById("canvas").addEventListener("click", function(ev) {
+      if (dragging || !selectedShapeType) return;
+      dropShape({
+        preventDefault: function() {},
+        offsetX: ev.offsetX,
+        offsetY: ev.offsetY,
+        dataTransfer: { getData: function() { return selectedShapeType; } }
+      });
+    });
 
     function allowDrop(ev) {
       ev.preventDefault();

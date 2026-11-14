@@ -188,14 +188,62 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     let cluesGiven = 0;
     let choices = [];
 
+    function isPrime(num) {
+      if (num < 2) return false;
+      for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) return false;
+      }
+      return true;
+    }
+    function uniqueClues(target, all) {
+      const others = all.filter(n => n !== target);
+      const clues = [];
+      if (others.every(n => (n % 2 === 0) !== (target % 2 === 0))) {
+        clues.push(target % 2 === 0 ? "It's an even number." : "It's an odd number.");
+      }
+      [3, 5].forEach(d => {
+        const t = target % d === 0;
+        if (others.every(n => (n % d === 0) !== t)) {
+          clues.push(t ? "It's divisible by " + d + "." : "It's not divisible by " + d + ".");
+        }
+      });
+      const tPrime = isPrime(target);
+      if (others.every(n => isPrime(n) !== tPrime)) {
+        clues.push(tPrime ? "It's a prime number." : "It's not a prime number.");
+      }
+      if (others.every(n => n < target)) {
+        clues.push("Higher than " + Math.max.apply(null, others) + ".");
+      }
+      if (others.every(n => n > target)) {
+        clues.push("Lower than " + Math.min.apply(null, others) + ".");
+      }
+      return clues;
+    }
     function startLevel() {
       document.getElementById('message').textContent = '';
       potentialPoints = 3;
       cluesGiven = 0;
-      document.getElementById('potentialPoints').textContent = `Potential Points: ${potentialPoints}`;
-
-      targetNumber = Math.floor(Math.random() * 30);
-      generateChoices();
+      document.getElementById('potentialPoints').textContent = "Potential Points: " + potentialPoints;
+      let clues = [];
+      for (let attempt = 0; attempt < 80; attempt++) {
+        targetNumber = Math.floor(Math.random() * 29) + 1;
+        const others = [];
+        while (others.length < 2) {
+          const n = Math.floor(Math.random() * 29) + 1;
+          if (n !== targetNumber && !others.includes(n)) others.push(n);
+        }
+        const all = [targetNumber].concat(others);
+        clues = uniqueClues(targetNumber, all);
+        if (clues.length) {
+          choices = all.sort(() => Math.random() - 0.5);
+          window._uniqueClues = clues;
+          break;
+        }
+      }
+      if (!window._uniqueClues || !window._uniqueClues.length) {
+        window._uniqueClues = ["The number is " + targetNumber + "."];
+        choices = [targetNumber, (targetNumber % 29) + 1, (targetNumber + 7) % 29 + 1];
+      }
       showChoices();
       showClue();
     }
@@ -224,50 +272,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
 
  function showClue() {
-  let clueText = '';
-
-  // Helper functions
-  const isPrime = (num) => {
-    if (num < 2) return false;
-    for (let i = 2; i <= Math.sqrt(num); i++) {
-      if (num % i === 0) return false;
-    }
-    return true;
-  };
-
-  const getDivisor = () => {
-    const divisors = [2, 3, 5];
-    return divisors[Math.floor(Math.random() * divisors.length)];
-  };
-
-  const getHigherLowerClue = () => {
-    const offset = Math.floor(Math.random() * 5 + 1);
-    if (targetNumber > 15) {
-      return `Lower than ${targetNumber + offset}`;
-    } else {
-      const lowerBound = targetNumber - offset > 0 ? targetNumber - offset : 1;
-      return `Higher than ${lowerBound}`;
-    }
-  };
-
-  // Define possible clue types
-  const clueOptions = [
-    () => isPrime(targetNumber) ? "It's a prime number." : "It's not a prime number.",
-    () => {
-      const divisor = getDivisor();
-      return targetNumber % divisor === 0
-        ? `It's divisible by ${divisor}.`
-        : `It's not divisible by ${divisor}.`;
-    },
-    () => getHigherLowerClue()
-  ];
-
-  // Pick a clue based on how many have been given
-  const availableClues = clueOptions.filter((_, index) => index >= cluesGiven);
-  const randomClue = availableClues[Math.floor(Math.random() * availableClues.length)];
-  clueText = randomClue();
-
-  document.getElementById('clue').textContent = `Clue: ${clueText}`;
+  const pool = window._uniqueClues || [];
+  const clueText = pool[Math.min(cluesGiven, pool.length - 1)] || "Keep looking carefully.";
+  document.getElementById('clue').textContent = "Clue: " + clueText;
 }
 
     function getClue() {
@@ -282,14 +289,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
 
     function makeGuess(num) {
+      const messageEl = document.getElementById('message');
       if (num === targetNumber) {
-        points += potentialPoints;
+        const earned = potentialPoints;
+        points += earned;
         document.getElementById('points').textContent = points;
-        document.getElementById('message').textContent = `Correct! You earned ${potentialPoints} points.`;
+        messageEl.textContent = earned > 0
+          ? ("Correct! You earned " + earned + " point" + (earned === 1 ? "" : "s") + ".")
+          : "Correct, but this try earned 0 points because of an earlier wrong pick.";
       } else {
-        potentialPoints--;
-        document.getElementById('potentialPoints').textContent = `Potential Points: ${potentialPoints}`;
-        document.getElementById('message').textContent = `Wrong guess! Try again or ask for another clue.`;
+        potentialPoints = 0;
+        document.getElementById('potentialPoints').textContent = "Potential Points: 0";
+        messageEl.textContent = "Wrong guess. You will not get points for this one. You can still find the right number.";
         return;
       }
 

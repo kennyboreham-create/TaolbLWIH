@@ -131,6 +131,23 @@ nav img {
 
 
   </style>
+
+  <style>
+    #gameBanner, #gameMessage, #creatureDescription, #question {
+      margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+      font-weight: 700; min-height: 1.4em;
+    }
+    #gameBanner, #gameMessage, #creatureDescription { background: #f3e9ff; color: #2e004d; }
+    .drag-hint { font-weight: 800; margin: 8px 0 12px; }
+    .game-next-btn, .next-tool-btn {
+      display: inline-block; margin-top: 10px; margin-right: 8px;
+      padding: 8px 14px; background: #5a1a8a; color: #fff !important;
+      text-decoration: none; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;
+    }
+    .shape.picked { outline: 3px solid #f5c518; }
+    
+  </style>
+
 </head>
 <body>
    <!-- Navigation-->
@@ -165,6 +182,8 @@ nav img {
 </nav>
   <h1>Type a Word to Hear It</h1>
   <input type="text" id="wordInput" placeholder="Type your word here">
+  <div id="gameMessage" role="status"></div>
+
   <br>
   <button onclick="speakWord()">Speak</button>
 <br><br>
@@ -176,7 +195,7 @@ nav img {
         const utterance = new SpeechSynthesisUtterance(word);
         speechSynthesis.speak(utterance);
       } else {
-        alert("Please enter a word first.");
+        const gm = document.getElementById("gameMessage"); if (gm) gm.textContent = "Please enter a word first.";
       }
     }
   </script>

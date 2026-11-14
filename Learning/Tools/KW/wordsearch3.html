@@ -119,12 +119,30 @@
   margin: 20px;      /* Adds spacing below */
 }
   </style>
+  <style>
+
+    #gameBanner, .game-banner, #creatureDescription, #gameMessage {
+      margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+      background: #eef3ff; color: #0b3d91; font-weight: 700; min-height: 1.4em;
+    }
+    .drag-hint { font-weight: 800; margin: 8px 0 12px; }
+    .next-tool-btn, .game-next-btn {
+      display: inline-block; margin-top: 10px; margin-right: 8px;
+      padding: 8px 14px; background: #0b3d91; color: #fff !important;
+      text-decoration: none; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;
+    }
+    .word.picked, .shape.picked { outline: 3px solid #f5c518; }
+
+  </style>
 </head>
 <body>
 
   <div class="sidebar">
     <h3>Liora's Mythic Word Search 3</h3>
     <h5>Find These Words:</h5>
+    <p class="drag-hint">Drag me!</p>
+    <div id="gameBanner" class="game-banner" role="status"></div>
+
     <ul class="word-list" id="wordList">
       <li>PUZZLE</li>
       <li>RESPECT</li>
@@ -203,12 +221,57 @@
 
     placeWords();
     fillGrid();
+    
+    function showBanner(msg, nextHref, nextLabel) {
+      const el = document.getElementById("gameBanner");
+      if (!el) return;
+      el.textContent = msg;
+      el.querySelectorAll("a,button").forEach(n => n.remove());
+      // put links after text
+      if (nextHref) {
+        el.appendChild(document.createTextNode(" "));
+        const a = document.createElement("a");
+        a.className = "next-tool-btn";
+        a.href = nextHref;
+        a.textContent = nextLabel || "Next level";
+        el.appendChild(a);
+      }
+    }
+
     window.onload = () => {
-  alert("🔮 Welcome to Liora's Mythic Word Search 3!\n\nClick and drag across letters to highlight a word.\nFind all 6 to win!");
+  showBanner("Welcome to Liora's Mythic Word Search 3! Click and drag across letters to highlight a word. Find all 6 to win!");
 };
 
     // Selection logic
     let isMouseDown = false;
+
+    let isTouchSelecting = false;
+    grid.addEventListener("touchstart", e => {
+      isTouchSelecting = true;
+      e.preventDefault();
+      const touch = e.touches[0];
+      const target = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (target && target.classList.contains("cell")) {
+        selectedCells = [target];
+        target.classList.add("selected");
+      }
+    }, { passive: false });
+    grid.addEventListener("touchmove", e => {
+      if (isTouchSelecting) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (target && target.classList.contains("cell") && !selectedCells.includes(target)) {
+          selectedCells.push(target);
+          target.classList.add("selected");
+        }
+      }
+    }, { passive: false });
+    grid.addEventListener("touchend", () => {
+      isTouchSelecting = false;
+      document.dispatchEvent(new Event("mouseup"));
+    });
+
 
     grid.addEventListener("mousedown", e => {
       if (e.target.classList.contains("cell")) {
@@ -252,10 +315,14 @@
           origin: { y: 0.6 }
         });
 
-        setTimeout(() => {
-          alert("🎉 Congrats! Level 3 complete!");
-          location.reload();
-        }, 500);
+                showBanner('Congrats! Level 3 complete!', '../../reading.html', 'More reading tools');
+        const again = document.createElement('button');
+        again.className = 'game-next-btn';
+        again.textContent = 'Play again';
+        again.onclick = () => location.reload();
+        const b = document.getElementById('gameBanner');
+        if (b) b.appendChild(again);
+
       }
 
     } else {

@@ -119,12 +119,30 @@
   margin: 20px;      /* Adds spacing below */
 }
   </style>
+  <style>
+
+    #gameBanner, .game-banner, #creatureDescription, #gameMessage {
+      margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+      background: #eef3ff; color: #0b3d91; font-weight: 700; min-height: 1.4em;
+    }
+    .drag-hint { font-weight: 800; margin: 8px 0 12px; }
+    .next-tool-btn, .game-next-btn {
+      display: inline-block; margin-top: 10px; margin-right: 8px;
+      padding: 8px 14px; background: #0b3d91; color: #fff !important;
+      text-decoration: none; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;
+    }
+    .word.picked, .shape.picked { outline: 3px solid #f5c518; }
+
+  </style>
 </head>
 <body>
 
   <div class="sidebar">
     <h3>Liora's Mythic Word Search</h3>
     <h5>Find These Words:</h5>
+    <p class="drag-hint">Drag me!</p>
+    <div id="gameBanner" class="game-banner" role="status"></div>
+
     <ul class="word-list" id="wordList">
       <li>FIRE</li>
       <li>MOON</li>
@@ -203,8 +221,25 @@
 
     placeWords();
     fillGrid();
+    
+    function showBanner(msg, nextHref, nextLabel) {
+      const el = document.getElementById("gameBanner");
+      if (!el) return;
+      el.textContent = msg;
+      el.querySelectorAll("a,button").forEach(n => n.remove());
+      // put links after text
+      if (nextHref) {
+        el.appendChild(document.createTextNode(" "));
+        const a = document.createElement("a");
+        a.className = "next-tool-btn";
+        a.href = nextHref;
+        a.textContent = nextLabel || "Next level";
+        el.appendChild(a);
+      }
+    }
+
     window.onload = () => {
-  alert("🔮 Welcome to Liora's Mythic Word Search!\n\nClick and drag across letters to highlight a word.\nFind all 6 to win!");
+  showBanner("Welcome to Liora's Mythic Word Search! Click and drag across letters to highlight a word. Find all 6 to win!");
 };
 
 let isMouseDown = false;
@@ -291,10 +326,14 @@ function finalizeSelection() {
           origin: { y: 0.6 }
         });
 
-        setTimeout(() => {
-          alert("🎉 Congratulations! You found all the words!");
-          location.reload();
-        }, 500);
+                showBanner('Congratulations! You found all the words!', 'wordsearch2.html', 'Next: Word Search 2');
+        const again = document.createElement('button');
+        again.className = 'game-next-btn';
+        again.textContent = 'Play again';
+        again.onclick = () => location.reload();
+        const b = document.getElementById('gameBanner');
+        if (b) b.appendChild(again);
+
       }
     } else {
       selectedCells.forEach(c => c.classList.remove("selected"));
