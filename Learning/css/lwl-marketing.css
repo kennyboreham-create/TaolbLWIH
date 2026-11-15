@@ -1,4 +1,4 @@
-/* Learning with Lukey Buke — shared marketing styles (forms, CTA bars, consent) */
+/* Learning with Lukey Buke — shared marketing styles (forms, CTA, consent) */
 :root {
   --lwl-purple: #6222CC;
   --lwl-orange: #FBA504;
@@ -6,6 +6,7 @@
   --lwl-muted: #444;
 }
 
+/* Forms */
 .lwl-signup {
   background: #fff;
   border: 1px solid rgba(98, 34, 204, 0.15);
@@ -14,8 +15,13 @@
   box-shadow: 0 8px 24px rgba(98, 34, 204, 0.08);
   text-align: left;
   max-width: 560px;
+  width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
+.lwl-signup *,
+.lwl-signup *::before,
+.lwl-signup *::after { box-sizing: border-box; }
 .lwl-signup h2,
 .lwl-signup .lwl-form-title {
   font-family: Jost, Heebo, sans-serif;
@@ -23,12 +29,23 @@
   font-weight: 700;
   margin: 0 0 8px 0;
   font-size: 1.6rem;
+  display: block;
+  width: 100%;
 }
-.lwl-signup .lwl-form-lead {
+.lwl-signup .lwl-form-lead,
+.lwl-signup .lwl-grownup-note {
   margin: 0 0 16px 0;
   color: var(--lwl-muted);
+  display: block;
+  width: 100%;
+}
+.lwl-signup .lwl-grownup-note {
+  font-size: 0.95em;
+  font-style: italic;
 }
 .lwl-signup .mc-field-group {
+  display: block;
+  width: 100%;
   margin: 0 0 12px 0;
 }
 .lwl-signup label {
@@ -50,18 +67,59 @@
   outline: 2px solid var(--lwl-purple);
   border-color: var(--lwl-purple);
 }
-.lwl-signup .input-group ul {
+
+/* Do not use Bootstrap's .input-group flex row for interest checkboxes */
+.lwl-signup .input-group,
+.lwl-signup .lwl-groups {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100%;
+  margin: 16px 0 !important;
+  flex: none !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+.lwl-signup .input-group > strong,
+.lwl-signup .lwl-groups > strong,
+.lwl-signup .input-group > p,
+.lwl-signup .lwl-groups > p {
+  display: block !important;
+  width: 100% !important;
+  flex: none !important;
+  margin: 0 0 8px 0;
+}
+.lwl-signup .input-group ul,
+.lwl-signup .lwl-groups ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: block !important;
+  width: 100%;
 }
-.lwl-signup .input-group li {
-  margin: 0 0 6px 0;
+.lwl-signup .input-group li,
+.lwl-signup .lwl-groups li {
+  display: block !important;
+  width: 100%;
+  margin: 0 0 8px 0;
+  padding: 0;
 }
-.lwl-signup .input-group label {
-  display: inline;
+.lwl-signup .input-group li label,
+.lwl-signup .lwl-groups li label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 400;
+  margin: 0;
 }
+.lwl-signup .input-group input[type="checkbox"],
+.lwl-signup .lwl-groups input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  flex: none;
+}
+
 .lwl-signup .button,
 .lwl-signup input[type="submit"] {
   display: inline-block;
@@ -76,9 +134,7 @@
   white-space: nowrap;
 }
 .lwl-signup .button:hover,
-.lwl-signup input[type="submit"]:hover,
-.lwl-signup .button:focus,
-.lwl-signup input[type="submit"]:focus {
+.lwl-signup input[type="submit"]:hover {
   background: #e09404;
   color: #2a0d45;
 }
@@ -100,11 +156,17 @@
 }
 .lwl-form-status.lwl-ok { color: #1b6b3a; }
 
+/* In-flow CTA bars on content pages (not used inside live games) */
 .lwl-cta-bar {
   background: #f7f3ff;
   border-top: 3px solid var(--lwl-purple);
   padding: 18px 16px;
   text-align: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  clear: both;
+  display: block;
 }
 .lwl-cta-bar p {
   margin: 0 0 10px 0;
@@ -129,24 +191,69 @@ a.lwl-cta-btn {
   color: var(--lwl-purple);
 }
 
+/* Game/book/comic pages: hide leftover in-flow bars so they cannot become a side column */
+.lwl-game-page .lwl-cta-bar,
+.lwl-game-page #lwl-comic-end-cta > .lwl-cta-bar {
+  display: none !important;
+}
+
+/* Isolated end-of-game host: never a flex/grid side column */
+#lwl-end-cta-host {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+  clear: both !important;
+  grid-column: 1 / -1 !important;
+  flex: 0 0 100% !important;
+  align-self: stretch !important;
+  order: 9999 !important;
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  inset: auto !important;
+  display: none;
+  z-index: 30 !important;
+}
+#lwl-end-cta-host.lwl-open {
+  display: block !important;
+}
+
+/* Slim top consent bar — does not cover bottom controls; pads the page while open */
 .lwl-consent {
   position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: auto;
   z-index: 1080;
-  max-width: 720px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   background: #fff;
   color: #222;
-  border: 1px solid rgba(98, 34, 204, 0.2);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
-  padding: 16px 18px;
-  font-size: 0.92rem;
-  line-height: 1.45;
+  border: 0;
+  border-bottom: 1px solid rgba(98, 34, 204, 0.2);
+  border-radius: 0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  box-sizing: border-box;
 }
-.lwl-consent p { margin: 0 0 10px 0; }
+.lwl-consent p {
+  margin: 0;
+  flex: 1 1 220px;
+  max-width: 42rem;
+}
 .lwl-consent .lwl-consent-actions {
   display: flex;
   flex-wrap: wrap;
@@ -156,24 +263,30 @@ a.lwl-cta-btn {
 .lwl-consent button {
   border: 0;
   border-radius: 50rem;
-  padding: 8px 14px;
+  padding: 6px 14px;
   font-weight: 600;
   cursor: pointer;
+  font-size: 0.9rem;
 }
 .lwl-consent [data-accept] {
   background: var(--lwl-purple);
   color: #fff;
 }
-.lwl-consent [data-ads-on] {
+.lwl-consent [data-no] {
   background: #eee;
   color: #333;
 }
-.lwl-consent [data-dismiss] {
+.lwl-consent [data-close] {
   background: transparent;
-  color: #444;
+  color: #333;
   text-decoration: underline;
+  font-weight: 500;
 }
 .lwl-consent a { color: var(--lwl-purple); }
+html.lwl-consent-open {
+  padding-top: 56px;
+  box-sizing: border-box;
+}
 
 .lwl-bullets {
   padding-left: 1.2rem;
@@ -187,4 +300,49 @@ a.lwl-cta-btn {
   text-decoration: underline;
   margin-top: 12px;
   margin-left: 8px;
+}
+
+/* Keep "Free mazes" on one line in the shared nav */
+.navbar-nav .nav-link {
+  white-space: nowrap;
+}
+
+/* Back-to-top: theme's .btn-lg-square {display:flex} otherwise wins and covers headings */
+a.back-to-top {
+  display: none !important;
+  right: 16px;
+  bottom: 16px;
+  z-index: 90;
+}
+a.back-to-top.lwl-show {
+  display: flex !important;
+}
+
+/* New marketing pages: stop a sliver of horizontal scroll on narrow viewports */
+html.lwl-marketing-page,
+html.lwl-marketing-page body,
+.lwl-marketing-page,
+body.lwl-marketing-page {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+.lwl-marketing-page .container,
+.lwl-marketing-page .container-xxl,
+.lwl-marketing-page .row,
+.lwl-marketing-page .hero-header,
+.lwl-marketing-page img,
+.lwl-marketing-page .lwl-signup {
+  max-width: 100%;
+}
+.lwl-marketing-page .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+/* After a game ends, let the isolated CTA wrap to a full-width row under the board */
+html.lwl-game-page.lwl-cta-visible,
+html.lwl-game-page.lwl-cta-visible body,
+body.lwl-game-page.lwl-cta-visible {
+  flex-wrap: wrap;
 }
