@@ -204,6 +204,7 @@ h6,
     .navbar-light .btn {
         color: var(--dark);
         background: #FFFFFF;
+        white-space: nowrap;
     }
 
     .sticky-top.navbar-light .btn {
