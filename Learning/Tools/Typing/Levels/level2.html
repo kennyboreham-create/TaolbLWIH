@@ -116,13 +116,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="key" id="30">?</div>
     </div>
 </div>
- <!-- Embedded video element -->
-    <video id="missionVideo" autoplay playsinline style="display: none; width:100%">
-        <source src="../Campaign/Vidlevel3.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
-     <div class="overlay" style="display: none;">Here we go...</div>
+<div class="overlay" style="display: none;">Here we go...</div>
 
 <footer>
 
@@ -136,25 +130,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 const word = ["GGGG", "HHHH", "GGHH", "HHGG","GHGH","HGHG"];
 window.onload = main1();
 function nextLevel(){
-     // Get elements
-        const startMission = document.getElementById('startMission');
-        const missionVideo = document.getElementById('missionVideo');
-        const overlay = document.querySelector('.overlay');
-
-        // Add event listener to the link
-        //startMission.addEventListener('click', (event) => {
-            //event.preventDefault(); // Prevent default link behavior
-            startMission.style.display = 'none'; // Hide text
-            missionVideo.style.display = 'block'; // Show video
-            overlay.style.display = 'block'; // Show overlay
-            missionVideo.play();
-
-            // After the video ends, navigate to another page
-            missionVideo.addEventListener('ended', () => {
-                window.location.href = 'level3.html'; // Replace with your next HTML file
-           // });
-        });
-   
+  window.location.href = 'level3.html';
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>

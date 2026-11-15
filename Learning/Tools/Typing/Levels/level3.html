@@ -52,14 +52,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
      <link rel="stylesheet" type="text/css" href="styles.css">
      <head><style>
-          #missionVideo {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Makes the video fill the screen */
-        }
     </style>
      </head>
 </head>
@@ -126,12 +118,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="key" id="30">?</div>
     </div>
 </div>
-<!-- Embedded video element -->
-    <video id="missionVideo" autoplay playsinline style="display: none; width:100%">
-        <source src="../Campaign/Campaign3/Vid4.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
 <footer>
 
 <p><span id="counter">
@@ -147,26 +133,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 const word = ["DDDD", "KKKK", "DDKK", "KKDD","DKDK","KDKD"];
 window.onload = main1();
 function nextLevel(){
-    // Get elements
-        const startMission = document.getElementById('startMission');
-        const missionVideo = document.getElementById('missionVideo');
-        
-        // Add event listener to the link
-        //startMission.addEventListener('click', (event) => {
-            //event.preventDefault(); // Prevent default link behavior
-            startMission.style.display = 'none'; // Hide text
-            missionVideo.style.display = 'block'; // Show video
-            
-            missionVideo.play();
-
-            // After the video ends, navigate to another page
-            missionVideo.addEventListener('ended', () => {
-                window.location.href = 'level4.html'; // Replace with your next HTML file
-           // });
-        });
-   
-    
-    };
+  window.location.href = 'level4.html';
+}
     </script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </html>
