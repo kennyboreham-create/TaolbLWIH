@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Threx's Mythic Words | Learning with Lukey Buke</title>
+<link rel="canonical" href="https://learningwithlukeybuke.com/Learning/Tools/KW/sentence.html">
 
 <meta name="description" content="Threx’s Mythic Words is a playful tool where kids type words and discover new ones—encouraging creativity, vocabulary growth, and judgment-free exploration.">
 
@@ -130,6 +132,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KN5WH259');</script>
 <!-- End Google Tag Manager -->
+
+  <style>
+    #gameBanner, #gameMessage, #creatureDescription, #question {
+      margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+      font-weight: 700; min-height: 1.4em;
+    }
+    #gameBanner, #gameMessage, #creatureDescription { background: #f3e9ff; color: #2e004d; }
+    .drag-hint { font-weight: 800; margin: 8px 0 12px; }
+    .game-next-btn, .next-tool-btn {
+      display: inline-block; margin-top: 10px; margin-right: 8px;
+      padding: 8px 14px; background: #5a1a8a; color: #fff !important;
+      text-decoration: none; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;
+    }
+    .shape.picked { outline: 3px solid #f5c518; }
+    
+  </style>
+
 </head>
 <body>
 
@@ -168,6 +187,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div>
       <h1>Type a Word</h1>
       <input type="text" id="wordInput" placeholder="Enter a word...">
+  <div id="gameMessage" role="status"></div>
+
       <br>
       <button onclick="generateSentence()">Find New Words</button>
     </div>
@@ -181,94 +202,65 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 async function generateSentence() {
   const word = document.getElementById("wordInput").value.trim();
   const output = document.getElementById("output");
+  const gm = document.getElementById("gameMessage");
 
   if (!word) {
     output.textContent = "";
-    alert("Please enter a word first.");
+    if (gm) gm.textContent = "Please enter a word first.";
     return;
   }
 
-  try {
-    const response = await fetch(`https://api.datamuse.com/words?ml=${word}&max=5`);
-    const data = await response.json();
+  if (gm) gm.textContent = "Thinking...";
+  if (output) output.textContent = "";
 
-    if (data.length > 0) {
-      const related = data.map(item => item.word).slice(0, 3).join(", ");
-      output.textContent = `The word "${word}" brings to mind: ${related}.`;
-    } else {
-      output.textContent = `The word "${word}" is truly one of a kind.`;
+  try {
+    const response = await fetch("https://api.datamuse.com/words?ml=" + encodeURIComponent(word) + "&max=5&_=" + Date.now());
+    if (!response.ok) {
+      throw new Error("Datamuse request failed: " + response.status);
     }
-  } catch (error) {
-    output.textContent = "Oops! Something went wrong.";
-    console.error(error);
-  }
-}
-
-
-async function generateSentence() {
-  const word = document.getElementById("wordInput").value.trim();
-  const output = document.getElementById("output");
-
-  if (!word) {
-    output.textContent = "";
-    alert("Please enter a word first.");
-    return;
-  }
-
-  try {
-    const response = await fetch(`https://api.datamuse.com/words?ml=${word}&max=5`);
     const data = await response.json();
+    const relatedWords = Array.isArray(data)
+      ? data.map(function (item) { return item && item.word; }).filter(Boolean).slice(0, 3)
+      : [];
 
     let sentence = "";
-
-    if (data.length > 0) {
-      const related = data.map(item => item.word).slice(0, 3).join(", ");
-      sentence = `The word "${word}" brings to mind: ${related}.`;
+    if (relatedWords.length > 0) {
+      sentence = 'The word "' + word + '" brings to mind: ' + relatedWords.join(", ") + ".";
     } else {
-      sentence = `The word "${word}" is truly one of a kind.`;
+      sentence = 'The word "' + word + '" is truly one of a kind.';
     }
 
     output.textContent = sentence;
+    if (gm) gm.textContent = "";
 
-    // 🔊 Speak the full sentence
-    const utterance = new SpeechSynthesisUtterance(sentence);
-    speechSynthesis.speak(utterance);
-
-  } catch (error) {
-    output.textContent = "Oops! Something went wrong.";
-    console.error(error);
-  }
-}async function generateSentence() {
-  const word = document.getElementById("wordInput").value.trim();
-  const output = document.getElementById("output");
-
-  if (!word) {
-    output.textContent = "";
-    alert("Please enter a word first.");
-    return;
-  }
-
-  try {
-    const response = await fetch(`https://api.datamuse.com/words?ml=${word}&max=5`);
-    const data = await response.json();
-
-    let sentence = "";
-
-    if (data.length > 0) {
-      const related = data.map(item => item.word).slice(0, 3).join(", ");
-      sentence = `The word "${word}" brings to mind: ${related}.`;
-    } else {
-      sentence = `The word "${word}" is truly one of a kind.`;
+    window.sentencePoints = (Number(window.sentencePoints) || 0) + 1;
+    const counter = document.getElementById("counter");
+    if (counter) {
+      const box = counter.querySelector("div");
+      if (box) box.textContent = String(window.sentencePoints);
+      else counter.innerHTML = "Points: <div>" + window.sentencePoints + "</div>";
     }
 
-    output.textContent = sentence;
-
-    // 🔊 Speak the full sentence
-    const utterance = new SpeechSynthesisUtterance(sentence);
-    speechSynthesis.speak(utterance);
-
+    try {
+      if (window.speechSynthesis && window.SpeechSynthesisUtterance) {
+        const utterance = new SpeechSynthesisUtterance(sentence);
+        window.speechSynthesis.speak(utterance);
+      }
+    } catch (speechError) {
+      console.error(speechError);
+    }
   } catch (error) {
     output.textContent = "Oops! Something went wrong.";
+    if (gm) {
+      gm.textContent = "";
+      const again = document.createElement("button");
+      again.type = "button";
+      again.textContent = "Try again";
+      again.addEventListener("click", function () {
+        generateSentence();
+      });
+      gm.appendChild(again);
+    }
     console.error(error);
   }
 }

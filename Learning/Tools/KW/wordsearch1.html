@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KN5WH259');</script>
+<!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Liora's Mythic Word Search | Learning with Lukey Buke</title>
+<link rel="canonical" href="https://learningwithlukeybuke.com/Learning/Tools/KW/wordsearch1.html">
 
 <meta name="description" content="Liora’s Mythic Word Search helps kids build vocabulary and pattern recognition by finding elemental words like FIRE, MOON, and STAR in a fun, judgment-free grid.">
 
@@ -119,12 +127,34 @@
   margin: 20px;      /* Adds spacing below */
 }
   </style>
+  <style>
+
+    #gameBanner, .game-banner, #creatureDescription, #gameMessage {
+      margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+      background: #eef3ff; color: #0b3d91; font-weight: 700; min-height: 1.4em;
+    }
+    .drag-hint { font-weight: 800; margin: 8px 0 12px; }
+    .next-tool-btn, .game-next-btn {
+      display: inline-block; margin-top: 10px; margin-right: 8px;
+      padding: 8px 14px; background: #0b3d91; color: #fff !important;
+      text-decoration: none; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;
+    }
+    .word.picked, .shape.picked { outline: 3px solid #f5c518; }
+
+  </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KN5WH259"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
   <div class="sidebar">
-    <h3>Liora's Mythic Word Search</h3>
+    <h1 style="font-size:1.17em;font-weight:bold;">Liora's Mythic Word Search</h1>
     <h5>Find These Words:</h5>
+    <p class="drag-hint">Drag me!</p>
+    <div id="gameBanner" class="game-banner" role="status"></div>
+
     <ul class="word-list" id="wordList">
       <li>FIRE</li>
       <li>MOON</li>
@@ -161,35 +191,80 @@
       cells.push(cell);
     }
 
-    // Place words horizontally
-    function placeWords() {
-      words.forEach(word => {
+    function canPlaceWord(word, row, col, dRow, dCol) {
+      for (let i = 0; i < word.length; i++) {
+        const r = row + dRow * i;
+        const c = col + dCol * i;
+        if (r < 0 || r >= gridSize || c < 0 || c >= gridSize) return false;
+        const existing = cells[r * gridSize + c].textContent;
+        if (existing && existing !== word[i]) return false;
+      }
+      return true;
+    }
+
+    function writeWord(word, row, col, dRow, dCol) {
+      for (let i = 0; i < word.length; i++) {
+        const cell = cells[(row + dRow * i) * gridSize + (col + dCol * i)];
+        cell.textContent = word[i];
+        const prev = cell.dataset.word ? cell.dataset.word + "," : "";
+        cell.dataset.word = prev + word;
+        cell.dataset.part = i;
+      }
+    }
+
+    function tryPlaceAll() {
+      const directions = [
+        [0, 1], [1, 0]
+      ];
+      const toPlace = words.slice().sort(function (a, b) { return b.length - a.length; });
+      for (let w = 0; w < toPlace.length; w++) {
+        const word = toPlace[w];
         let placed = false;
-        while (!placed) {
+        const dirs = directions.slice();
+        for (let i = dirs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const tmp = dirs[i]; dirs[i] = dirs[j]; dirs[j] = tmp;
+        }
+        for (let attempt = 0; attempt < 250 && !placed; attempt++) {
+          const dir = dirs[attempt % dirs.length];
           const row = Math.floor(Math.random() * gridSize);
-          const col = Math.floor(Math.random() * (gridSize - word.length));
-          let fits = true;
-
-          for (let i = 0; i < word.length; i++) {
-            const index = row * gridSize + col + i;
-            if (cells[index].textContent) {
-              fits = false;
-              break;
-            }
-          }
-
-          if (fits) {
-            for (let i = 0; i < word.length; i++) {
-              const index = row * gridSize + col + i;
-              cells[index].textContent = word[i];
-              cells[index].dataset.word = word;
-              cells[index].dataset.part = i;
-            }
+          const col = Math.floor(Math.random() * gridSize);
+          if (canPlaceWord(word, row, col, dir[0], dir[1])) {
+            writeWord(word, row, col, dir[0], dir[1]);
             placed = true;
           }
         }
-      });
+        if (!placed) {
+          for (let d = 0; d < dirs.length && !placed; d++) {
+            const dir = dirs[d];
+            for (let row = 0; row < gridSize && !placed; row++) {
+              for (let col = 0; col < gridSize && !placed; col++) {
+                if (canPlaceWord(word, row, col, dir[0], dir[1])) {
+                  writeWord(word, row, col, dir[0], dir[1]);
+                  placed = true;
+                }
+              }
+            }
+          }
+        }
+        if (!placed) return false;
+      }
+      return true;
     }
+
+    function placeWords() {
+      const maxRounds = 25;
+      for (let round = 0; round < maxRounds; round++) {
+        cells.forEach(function (cell) {
+          cell.textContent = "";
+          delete cell.dataset.word;
+          delete cell.dataset.part;
+        });
+        if (tryPlaceAll()) return;
+      }
+      console.warn("Word search: not every word could be placed.");
+    }
+
 
     // Fill remaining cells with random letters
     function fillGrid() {
@@ -203,76 +278,136 @@
 
     placeWords();
     fillGrid();
+    
+    function showBanner(msg, nextHref, nextLabel) {
+      const el = document.getElementById("gameBanner");
+      if (!el) return;
+      el.textContent = msg;
+      el.querySelectorAll("a,button").forEach(n => n.remove());
+      // put links after text
+      if (nextHref) {
+        el.appendChild(document.createTextNode(" "));
+        const a = document.createElement("a");
+        a.className = "next-tool-btn";
+        a.href = nextHref;
+        a.textContent = nextLabel || "Next level";
+        el.appendChild(a);
+      }
+    }
+
     window.onload = () => {
-  alert("🔮 Welcome to Liora's Mythic Word Search!\n\nClick and drag across letters to highlight a word.\nFind all 6 to win!");
+  showBanner("Welcome to Liora's Mythic Word Search! Click and drag across letters to highlight a word. Find all 6 to win!");
 };
 
 let isMouseDown = false;
 
 
 // Mouse Events
-grid.addEventListener("mousedown", e => {
-  if (e.target.classList.contains("cell")) {
-    isMouseDown = true;
-    selectedCells = [e.target];
-    e.target.classList.add("selected");
-  }
-});
+const allowDiagonalSelection = false;
 
-grid.addEventListener("mouseover", e => {
-  if (isMouseDown && e.target.classList.contains("cell") && !selectedCells.includes(e.target)) {
-    selectedCells.push(e.target);
-    e.target.classList.add("selected");
-  }
-});
-
-document.addEventListener("mouseup", () => {
-  finalizeSelection();
-  isMouseDown = false;
-});
-
-// Touch Events
-grid.addEventListener("touchstart", e => {
-  isTouchSelecting = true;
-  e.preventDefault(); // block scroll only during selection
-  const touch = e.touches[0];
-  const target = document.elementFromPoint(touch.clientX, touch.clientY);
-  if (target && target.classList.contains("cell")) {
-    selectedCells = [target];
-    target.classList.add("selected");
-  }
-}, { passive: false });
-
-
-grid.addEventListener("touchmove", e => {
-  if (isTouchSelecting) {
-    e.preventDefault(); // block scroll only if selecting
-    const touch = e.touches[0];
-    const target = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (target && target.classList.contains("cell") && !selectedCells.includes(target)) {
-      selectedCells.push(target);
-      target.classList.add("selected");
+    function cellPos(cell) {
+      const index = Number(cell.dataset.index);
+      return { row: Math.floor(index / gridSize), col: index % gridSize };
     }
-  }
-}, { passive: false });
 
+    function cellsOnLine(start, end) {
+      const a = cellPos(start);
+      const b = cellPos(end);
+      const dRow = b.row - a.row;
+      const dCol = b.col - a.col;
+      if (dRow === 0 && dCol === 0) return [start];
+      let stepR = 0, stepC = 0;
+      if (dRow === 0) {
+        stepC = dCol > 0 ? 1 : -1;
+      } else if (dCol === 0) {
+        stepR = dRow > 0 ? 1 : -1;
+      } else if (allowDiagonalSelection && Math.abs(dRow) === Math.abs(dCol)) {
+        stepR = dRow > 0 ? 1 : -1;
+        stepC = dCol > 0 ? 1 : -1;
+      } else {
+        return null;
+      }
+      const steps = Math.max(Math.abs(dRow), Math.abs(dCol));
+      const line = [];
+      for (let i = 0; i <= steps; i++) {
+        line.push(cells[(a.row + stepR * i) * gridSize + (a.col + stepC * i)]);
+      }
+      return line;
+    }
 
+    let selectionStart = null;
 
-grid.addEventListener("touchend", () => {
-  isTouchSelecting = false;
-  finalizeSelection();
-});
+    function setSelectionLine(target) {
+      if (!selectionStart || !target || !target.classList.contains("cell")) return;
+      const line = cellsOnLine(selectionStart, target);
+      if (!line) return;
+      selectedCells.forEach(function (c) { c.classList.remove("selected"); });
+      selectedCells = line;
+      selectedCells.forEach(function (c) {
+        if (!c.classList.contains("found")) c.classList.add("selected");
+      });
+    }
+
+    grid.addEventListener("mousedown", e => {
+      if (e.target.classList.contains("cell")) {
+        isMouseDown = true;
+        selectionStart = e.target;
+        selectedCells.forEach(function (c) { c.classList.remove("selected"); });
+        selectedCells = [e.target];
+        if (!e.target.classList.contains("found")) e.target.classList.add("selected");
+      }
+    });
+
+    grid.addEventListener("mouseover", e => {
+      if (isMouseDown) setSelectionLine(e.target);
+    });
+
+    document.addEventListener("mouseup", () => {
+      finalizeSelection();
+      isMouseDown = false;
+      selectionStart = null;
+    });
+
+    grid.addEventListener("touchstart", e => {
+      isTouchSelecting = true;
+      e.preventDefault();
+      const touch = e.touches[0];
+      const target = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (target && target.classList.contains("cell")) {
+        selectionStart = target;
+        selectedCells.forEach(function (c) { c.classList.remove("selected"); });
+        selectedCells = [target];
+        if (!target.classList.contains("found")) target.classList.add("selected");
+      }
+    }, { passive: false });
+
+    grid.addEventListener("touchmove", e => {
+      if (isTouchSelecting) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        setSelectionLine(target);
+      }
+    }, { passive: false });
+
+    grid.addEventListener("touchend", () => {
+      isTouchSelecting = false;
+      finalizeSelection();
+      selectionStart = null;
+    });
 
 
 // Finalize Selection Logic
 function finalizeSelection() {
   if (selectedCells.length > 0) {
     const selectedWord = selectedCells.map(c => c.textContent).join("");
-    if (words.includes(selectedWord)) {
+    const reversedWord = selectedWord.split("").reverse().join("");
+    const matchedWord = words.includes(selectedWord) ? selectedWord : (words.includes(reversedWord) ? reversedWord : null);
+    if (matchedWord) {
       selectedCells.forEach(c => c.classList.remove("selected"));
       selectedCells.forEach(c => c.classList.add("found"));
       for (let li of wordList) {
-        if (li.textContent === selectedWord) {
+        if (li.textContent === matchedWord) {
           li.classList.add("found");
         }
       }
@@ -291,10 +426,14 @@ function finalizeSelection() {
           origin: { y: 0.6 }
         });
 
-        setTimeout(() => {
-          alert("🎉 Congratulations! You found all the words!");
-          location.reload();
-        }, 500);
+                showBanner('Congratulations! You found all the words!', 'wordsearch2.html', 'Next: Word Search 2');
+        const again = document.createElement('button');
+        again.className = 'game-next-btn';
+        again.textContent = 'Play again';
+        again.onclick = () => location.reload();
+        const b = document.getElementById('gameBanner');
+        if (b) b.appendChild(again);
+
       }
     } else {
       selectedCells.forEach(c => c.classList.remove("selected"));

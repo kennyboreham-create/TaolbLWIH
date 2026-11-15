@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mivra's Vocabulary Game | Learning with Lukey Buke</title>
+<link rel="canonical" href="https://learningwithlukeybuke.com/Learning/Tools/KW/vocabGame.html">
 
 <meta name="description" content="Mivra’s Vocabulary Game helps kids build vocabulary and confidence by choosing the correct meaning of words like 'honest' in a fun, judgment-free quiz format.">
 
@@ -100,6 +102,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KN5WH259');</script>
 <!-- End Google Tag Manager -->
+
+  <style>
+    #gameBanner, #gameMessage, #creatureDescription {
+      margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+      background: #eef3ff; color: #0b3d91; font-weight: 700; min-height: 1.4em;
+    }
+    .drag-hint { font-weight: 800; margin: 8px 0 12px; }
+    .game-next-btn, .next-tool-btn {
+      display: inline-block; margin-top: 10px; margin-right: 8px;
+      padding: 8px 14px; background: #0b3d91; color: #fff !important;
+      text-decoration: none; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;
+    }
+    .word.picked, .shape.picked { outline: 3px solid #f5c518; }
+  </style>
+
 </head>
 <body>
   <main>
@@ -111,6 +128,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <button onclick="checkAnswer('C')">C. Running fast</button>
   </div>
   <div id="result"></div>
+    <button type="button" class="game-next-btn" id="nextQuestionBtn" hidden>Next</button>
 </main>
   <!-- Footer -->
   
@@ -154,6 +172,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 ];
 
     let currentLevel = 0;
+    let vocabScore = 0;
 
     function loadQuestion() {
       const q = questions[currentLevel];
@@ -172,18 +191,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       const q = questions[currentLevel];
       const result = document.getElementById("result");
       if (choice === q.correct) {
-        result.textContent = "🎉 Correct!";
+        result.textContent = "Correct!";
+        vocabScore++;
         currentLevel++;
+        const nextBtn = document.getElementById("nextQuestionBtn");
         if (currentLevel < questions.length) {
-          setTimeout(() => {
-            result.textContent = "";
-            loadQuestion();
-          }, 1000);
+          if (nextBtn) {
+            nextBtn.hidden = false;
+            nextBtn.onclick = () => {
+              nextBtn.hidden = true;
+              result.textContent = "";
+              loadQuestion();
+            };
+          }
         } else {
-          result.textContent = "🏆 You've completed all levels and beat Mivra!";
+          result.textContent = "Round complete! You got " + vocabScore + " of " + questions.length + " words right.";
+          if (nextBtn) {
+            nextBtn.textContent = "Play again";
+            nextBtn.hidden = false;
+            nextBtn.onclick = () => {
+              vocabScore = 0;
+              currentLevel = 0;
+              nextBtn.textContent = "Next";
+              nextBtn.hidden = true;
+              result.textContent = "";
+              loadQuestion();
+            };
+          }
         }
       } else {
-        result.textContent = "❌ Try again.";
+        result.textContent = "Try again.";
       }
     }
 

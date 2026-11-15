@@ -414,7 +414,12 @@ fieldset {
       font-size: 48px;
       text-align: center;
       margin-top: 100px;
-      color: black;
+      color: #fff;
+    }
+ #counter div,
+ #counter #pointsValue,
+ #sideNav #counter {
+      color: #fff;
     }
 
 legend {

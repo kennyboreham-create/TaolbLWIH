@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KN5WH259');</script>
+<!-- End Google Tag Manager -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>More Typing | Learning with Lukey Buke</title>
+<link rel="canonical" href="https://learningwithlukeybuke.com/Learning/Tools/Typing/index.html">
 
 <meta name="description" content="More Typing helps kids practice typing using a visual keyboard layout—supporting early literacy, motor skills, and judgment-free learning.">
 
@@ -46,11 +55,27 @@
      <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <div class="sidebar">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KN5WH259"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+        <div class="sidebar">
         <a href="../../index.html">Home</a>
         <a href="../../typing.html">More Typing</a>
-        <a href="Levels/level1.html">Level 1</a>
-        
+        <a href="Level1/level1.html">Level 1</a>
+        <a href="Levels/level2.html">Level 2</a>
+        <a href="Levels/level3.html">Level 3</a>
+        <a href="Levels/level4.html">Level 4</a>
+        <a href="Levels/level5.html">Level 5</a>
+        <a href="Levels/level6.html">Level 6</a>
+        <a href="Levels/level7.html">Level 7</a>
+        <a href="Levels/level8.html">Level 8</a>
+        <a href="Levels/level9.html">Level 9</a>
+        <a href="Levels/level10.html">Level 10</a>
+        <a href="Levels/level11.html">Level 11</a>
+        <a href="Levels/level12.html">Level 12</a>
+        <a href="Levels/level13.html">Level 13</a>
+        <a href="Levels/level14.html">Level 14</a>
     </div>
 <div class="container">
     <div id="gamebox" class="box"></div>
@@ -92,12 +117,28 @@
 </div>
 </body>
 
+
+<script>
+function showPracticeBanner(msg) {
+  let el = document.getElementById("gameBanner");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "gameBanner";
+    el.setAttribute("role", "status");
+    el.style.cssText = "margin:12px 20px;padding:12px 14px;border-radius:8px;background:#eef3ff;color:#222;font-weight:700;max-width:520px;";
+    const kb = document.querySelector(".keyboard") || document.body;
+    kb.parentNode.insertBefore(el, kb);
+  }
+  el.textContent = msg;
+}
+</script>
+
 <script>
 
     
     function main1() {
 
-  alert("This is a practive board. \n It is a great way to keep your head up while typing. \n Have Fun!!");
+  showPracticeBanner("This is a practive board. \n It is a great way to keep your head up while typing. \n Have Fun!!");
 
 
 }

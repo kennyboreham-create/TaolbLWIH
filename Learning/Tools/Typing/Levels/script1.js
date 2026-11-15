@@ -1,4 +1,75 @@
 
+function ensureTypingStyle() {
+  if (document.getElementById("typingFeedbackStyle")) return;
+  const s = document.createElement("style");
+  s.id = "typingFeedbackStyle";
+  s.textContent = ".key-target{outline:3px solid #6222CC; background:#ffe066 !important;} .key-wrong{background:#e57373 !important;} #gameBanner{margin:10px 0;padding:10px 12px;border-radius:8px;background:#eef3ff;color:#222;font-weight:700;max-width:520px;white-space:pre-line;}";
+  document.head.appendChild(s);
+}
+
+function bannerForWords(wordList) {
+  const letters = [];
+  const seen = {};
+  (wordList || []).forEach(function (w) {
+    String(w).toUpperCase().replace(/[^A-Z]/g, "").split("").forEach(function (ch) {
+      if (!seen[ch]) { seen[ch] = true; letters.push(ch); }
+    });
+  });
+  const leftSet = "QWERTASDFGZXCV";
+  const left = letters.filter(function (ch) { return leftSet.indexOf(ch) !== -1; });
+  const right = letters.filter(function (ch) { return leftSet.indexOf(ch) === -1; });
+  function listKeys(arr) {
+    if (arr.length === 1) return "the " + arr[0] + " key";
+    if (arr.length === 2) return "the " + arr[0] + " and " + arr[1] + " keys";
+    return "the " + arr.slice(0, -1).join(", ") + ", and " + arr[arr.length - 1] + " keys";
+  }
+  let first;
+  if (letters.length === 2 && left.length === 1 && right.length === 1) {
+    first = "Keep your left finger on the " + left[0] + " key \n Keep your right finger on the " + right[0] + " key";
+  } else if (letters.length > 0 && letters.length <= 4) {
+    first = "Keep your fingers on " + listKeys(letters);
+  } else if (letters.length > 4) {
+    first = "Type the words on the screen using " + listKeys(letters);
+  } else {
+    first = "Keep your fingers on the home row";
+  }
+  return first + " \n Try and keep your eyes on the screen \n Type as many words as you can";
+}
+function showBanner(msg) {
+  ensureTypingStyle();
+  let el = document.getElementById("gameBanner");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "gameBanner";
+    el.setAttribute("role", "status");
+    const box = document.getElementById("gamebox");
+    if (box && box.parentNode) box.parentNode.insertBefore(el, box);
+    else document.body.insertBefore(el, document.body.firstChild);
+  }
+  el.textContent = msg || "";
+}
+function clearKeyHighlights() {
+  document.querySelectorAll(".key-target,.key-wrong").forEach(function (el) {
+    el.classList.remove("key-target", "key-wrong");
+  });
+}
+function highlightTarget() {
+  ensureTypingStyle();
+  document.querySelectorAll(".key-target").forEach(el => el.classList.remove("key-target"));
+  if (typeof gameON !== "undefined" && gameON >= 2) return;
+  if (!wordSplit || !wordSplit[i]) return;
+  const id = String(wordSplit[i].toUpperCase().charCodeAt(0) - 64);
+  const el = document.getElementById(id);
+  if (el) el.classList.add("key-target");
+}
+function flashWrong(id) {
+  const el = document.getElementById(String(id));
+  if (!el) return;
+  el.classList.add("key-wrong");
+  setTimeout(() => el.classList.remove("key-wrong"), 250);
+}
+
+
 let letter = "";
 let code = 0;
 const word = ["HOOK", "LUCK", "COOK", "TOOL","SOUP","TILT","WALL","HOPE","LATE","RACE","RICE","WALK","TALK","BONE","HOME"];
@@ -267,20 +338,18 @@ document.addEventListener('keydown', function(event) {
      
     }
 
- if (gameON < 2){
+ if (gameON < 2 && wordSplit && wordSplit[i]){
 
   let compare = wordSplit[i].charCodeAt(0) - 64;
 
 
     if (keyPress == compare){
-
-     //document.getElementById().style.color = 'red';
       i ++;
       code ++;
-      
-
+      highlightTarget();
+    } else if (keyPress) {
+      flashWrong(keyPress);
     }
-
     if (i == 4){
 
         i = 0;
@@ -294,6 +363,7 @@ document.addEventListener('keydown', function(event) {
     
       case 0:
         document.getElementById("gamebox").innerHTML = wordSplit[0] + wordSplit[1] + wordSplit[2] + wordSplit[3] ;
+    highlightTarget();
         break;
       case 1:
         document.getElementById("gamebox").innerHTML = `<span style="color: red;">${wordSplit[0]}</span>` + wordSplit[1] + wordSplit[2] + wordSplit[3] ;
@@ -339,13 +409,9 @@ function level2(){
 }
 
  function randomNum(){
-
-
-                //Create random number
                 let min = 0;
-                let max = 14;
+                let max = Math.max(0, (typeof word !== "undefined" && word.length ? word.length : 1) - 1);
                 randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-                
             }
 
 
@@ -367,7 +433,7 @@ function main1() {
 
     gameON = 0;
     points = 0;
-    alert("Keep your left finger on the F key \n Keep your right finger on the j key \n Try and keep your eyes on the screen \n Type as many words as you can");
+    showBanner(bannerForWords(typeof word !== 'undefined' ? word : []));
     startTimer();
     level1();
 
@@ -382,6 +448,7 @@ function main1() {
                 } else {
                     timerElement.innerHTML = `Game Over! ` + `<span style="color: green;"><br><br>Total Points:` + points + `</span> `;
                     gameON = 2;
+                    clearKeyHighlights();
 
                     clearInterval(intervalId);
                     document.getElementById("gamebox").innerHTML = `<button id="play">Play Again</button>` + `\n` + `<button id="celly">Celebrate</button>`;

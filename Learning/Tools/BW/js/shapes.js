@@ -34,7 +34,9 @@ function containsProfanity(text) {
 document.getElementById('creatureName').addEventListener('input', function () {
   if (containsProfanity(this.value)) {
     this.value = '';
-    alert("That word isn't allowed.");
+    const msg = document.getElementById("creatureDescription") || document.getElementById("gameMessage");
+    if (msg) msg.textContent = "That word isn't allowed.";
+    else console.log("That word isn't allowed.");
   }
 });
 
@@ -64,6 +66,8 @@ function describeCreature() {
     ? `${creatureLabel} has ${parts.join(', ')}.`
     : `${creatureLabel} doesn't have any shapes yet.`;
 
+  const box = document.getElementById("creatureDescription") || document.getElementById("gameMessage");
+  if (box) box.textContent = description;
   const utterance = new SpeechSynthesisUtterance(description);
   speechSynthesis.speak(utterance);
 }
@@ -72,6 +76,8 @@ function describeCreature() {
 function clearCanvas() {
   const canvas = document.getElementById("canvas");
   canvas.innerHTML = '';
+  const box = document.getElementById("creatureDescription") || document.getElementById("gameMessage");
+  if (box) box.textContent = "Your creature has been cleared. Start building again!";
   speechSynthesis.speak(new SpeechSynthesisUtterance("Your creature has been cleared. Start building again!"));
 
 }

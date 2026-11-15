@@ -4,8 +4,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <title>Riley's Math Tool 1 | Learning with Lukey Buke</title>
+<link rel="canonical" href="https://learningwithlukeybuke.com/Learning/Tools/BW/index.html">
 
-<meta name="description" content="Riley’s Math Tool 1 helps kids build math fluency through repetition and testing—complete 50 addition questions, earn points, and follow a 30-day routine for success.">
+<meta name="description" content="Riley’s Math Tool 1 helps kids build math fluency through repetition and testing—play a short round of 10 addition questions, earn points, and build a streak.">
 
 <meta name="keywords" content="math tool for kids, addition practice, math fluency, judgment-free learning, inclusive education, Lukey Buke math, Riley's game, Acton Ontario education, 30-day math routine, beginner math tool">
 
@@ -23,7 +24,7 @@
   "@type": "WebPage",
   "name": "Riley's Math Tool 1 | Learning with Lukey Buke",
   "url": "https://learningwithlukeybuke.com/Learning/Tools/BW/index.html",
-  "description": "Riley’s Math Tool 1 helps kids build math fluency through repetition and testing—complete 50 addition questions, earn points, and follow a 30-day routine for success.",
+  "description": "Riley’s Math Tool 1 helps kids build math fluency through repetition and testing—play a short round of 10 addition questions, earn points, and build a streak.",
   "author": {
     "@type": "Person",
     "name": "Kenny Boreham"
@@ -46,7 +47,7 @@
       {
         "@type": "HowToStep",
         "name": "Step 2",
-        "text": "Complete 50 repetitions to earn 50 points."
+        "text": "Play a short round of 10 questions and earn points for correct answers."
       },
       {
         "@type": "HowToStep",
@@ -56,7 +57,7 @@
       {
         "@type": "HowToStep",
         "name": "Step 4",
-        "text": "Work on it every day for 30 days."
+        "text": "Try to build a streak and play another round whenever you like."
       }
     ]
   }
@@ -79,6 +80,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KN5WH259');</script>
 <!-- End Google Tag Manager -->
+
+    
+  <style>
+    #scoreboard { list-style: none; margin-top: 1.2rem; font-size: 1.35rem; font-weight: 700; line-height: 1.4; }
+    #scoreboard div { color: inherit; }
+    .round-progress { width: 280px; max-width: 90%; height: 14px; margin: 16px auto 6px; background: #e8e4f0; border-radius: 999px; overflow: hidden; }
+    .round-progress-bar { height: 100%; width: 0%; background: currentColor; background-color: #6222CC; transition: width .25s ease; }
+    .round-progress-label { text-align: center; font-size: 1rem; margin-bottom: 8px; }
+    .game-message { min-height: 1.6em; text-align: center; font-size: 1.3rem; font-weight: 700; margin-top: 14px; }
+    .game-message.is-ok { color: #2e7d32; }
+    .game-message.is-try { color: #c77800; }
+    .game-message.is-answer { color: #1565c0; }
+    .round-complete { position: fixed; inset: 0; background: rgba(4,0,11,.55); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+    .round-complete[hidden] { display: none !important; }
+    .round-complete-card { background: #fff; color: #04000B; padding: 28px 32px; border-radius: 16px; text-align: center; max-width: 420px; box-shadow: 0 8px 30px rgba(0,0,0,.2); }
+    .round-complete-card h2 { margin-top: 0; }
+    .round-complete-card .fun-button { margin: 8px; }
+    .next-tool-btn { display: inline-block; text-decoration: none; }
+  </style>
 
     </head>
     <body >
@@ -104,7 +124,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../about.html">ℹ️ About Us</a></li>
             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../../characters/humans.html">📬 Riley</a></li>
              <!-- Keep your original counter -->
-                    <li id="counter">Points: <div >0</div>
+                    <li id="scoreboard">
+                      <div id="counter">Points: <span id="pointsValue">0</span></div>
+                      <div id="streak">Streak: <span id="streakValue">0</span></div>
+                    </li>
                     
                 </ul>
                  
@@ -122,10 +145,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle w-25 mx-auto mb-2" src="../../characters/images/riley.png" alt="..." /></span>
                     </h1>
                     <div class="subheading mb-5">
-                        Step 1 - Click the addition repeater to learn questions <br>
-                        Step 2 - Complete 50 times to receive 50 Points <br>
-                        Step 3 - Do the test at the bottom 10 times <br>
-                        Step 4 - Work on every day for 30 days <br>
+                                                Play a short round of 10 questions in the test below.<br>
+                        Use the addition repeater to practice, then type your answer and press Enter.<br>
+                        Earn points for correct answers and try to build a streak!<br>
                         
                     </div>
                    
@@ -159,9 +181,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         
                         <span class="text-primary">Test</span>
                     </h1><div class="subheading mb-5" style="text-align: center;">Click to show new question, press enter to see if your answer is right.</div>
+
+                    <div class="round-progress" id="roundProgress" aria-hidden="false">
+                      <div class="round-progress-bar" id="roundProgressBar"></div>
+                    </div>
+                    <div class="round-progress-label" id="roundProgressLabel">Question 0 / 10</div>
+
                     <br><br><br><button class="fun-button" id="hey2" >Click Me!</button><br><br><br>
                   <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
                    <div class="sent1" id="wordBox2">  Test  </div><input style="text-align: center; width: 100px;" id="myInput"><br>
+                      <div id="gameMessage" class="game-message" role="status" aria-live="polite"></div>
+
 
                      
                         
@@ -169,6 +199,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                    </div>
                 </div>
             </section>
+
+            <div id="roundComplete" class="round-complete" hidden>
+              <div class="round-complete-card">
+                <h2>Round complete!</h2>
+                <p id="roundSummary"></p>
+                <button type="button" class="fun-button" id="playAgainBtn">Play again</button>
+                <a class="fun-button next-tool-btn" id="nextToolBtn" href="mathtool2.html">Next tool</a>
+              </div>
+            </div>
+
             <hr class="m-0" />
 
        
@@ -219,7 +259,7 @@ let randomNum = getRandomBetween5And30();
       const word = getRandomWord();
       wordBox.innerHTML = word;
       count++;
-        counterDiv.textContent = count;
+        /* practice clicks do not change test points */
         document.getElementById("hey").classList.toggle("newSpot");
 
        if (count == randomNum ){
@@ -234,17 +274,10 @@ let randomNum = getRandomBetween5And30();
        }
 
         if (count > 49) {
-
-           alert("Good Job Brianna");
-           document.getElementById("wordRead").classList.add("bGround");
-
-         confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-
-
+          document.getElementById("wordRead").classList.add("bGround");
+          if (typeof confetti === "function") {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+          }
         }
 
 
@@ -264,56 +297,152 @@ let randomNum = getRandomBetween5And30();
    
    
 
-    hey2.addEventListener("click", () => {
-         window.word2 = getRandomWord2();
-       window.word3 = getRandomWord2();
-      const word4 = document.getElementById("myInput").value;
-        const yep = Number(word2) + Number(word3);
-        window.comb = yep;
-      
+    const ROUND_SIZE = 10;
+    let points = 0;
+    let streak = 0;
+    let completed = 0;
+    let missCount = 0;
+    let awaitingAnswer = false;
+    const pointsEl = document.getElementById("pointsValue") || document.getElementById("counter");
+    const streakEl = document.getElementById("streakValue");
+    const msgEl = document.getElementById("gameMessage");
+    const barEl = document.getElementById("roundProgressBar");
+    const labelEl = document.getElementById("roundProgressLabel");
+    const overlayEl = document.getElementById("roundComplete");
+    const summaryEl = document.getElementById("roundSummary");
+    const playAgainBtn = document.getElementById("playAgainBtn");
+
+    function updateScoreboard() {
+      if (pointsEl) {
+        if (pointsEl.id === "pointsValue") pointsEl.textContent = points;
+        else pointsEl.innerHTML = "Points: <span id='pointsValue'>" + points + "</span>";
+      }
+      if (streakEl) streakEl.textContent = streak;
+    }
+    function updateProgress() {
+      if (barEl) barEl.style.width = Math.min(100, (completed / ROUND_SIZE) * 100) + "%";
+      if (labelEl) labelEl.textContent = "Question " + Math.min(completed + (awaitingAnswer ? 1 : 0), ROUND_SIZE) + " / " + ROUND_SIZE;
+    }
+    function showMessage(text, kind) {
+      if (!msgEl) return;
+      msgEl.textContent = text || "";
+      msgEl.className = "game-message" + (kind ? " is-" + kind : "");
+    }
+    function speakCheer(text) {
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {}
+    }
+    function burstConfetti() {
+      if (typeof confetti === "function") {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      }
+    }
+    function finishRound() {
+      awaitingAnswer = false;
+      if (summaryEl) summaryEl.textContent = "You scored " + points + " point" + (points === 1 ? "" : "s") + " with a best streak along the way. Nice work!";
+      if (overlayEl) overlayEl.hidden = false;
+      burstConfetti();
+    }
+    function resetRound() {
+      points = 0;
+      streak = 0;
+      completed = 0;
+      missCount = 0;
+      awaitingAnswer = false;
+      window.comb = undefined;
+      if (overlayEl) overlayEl.hidden = true;
+      const input = document.getElementById("myInput");
+      if (input) input.value = "";
+      if (wordBox2) wordBox2.innerHTML = "  Test  ";
+      showMessage("");
+      updateScoreboard();
+      updateProgress();
+    }
+    if (playAgainBtn) playAgainBtn.addEventListener("click", resetRound);
+
+    function newQuestion() {
+      if (completed >= ROUND_SIZE) {
+        finishRound();
+        return;
+      }
+      window.word2 = getRandomWord2();
+      window.word3 = getRandomWord2();
+      const yep = Number(word2) + Number(word3);
+      window.comb = yep;
       wordBox2.innerHTML = word2 + " + " + word3 + " =";
-      
-     
-      
-    });
+      const input = document.getElementById("myInput");
+      if (input) {
+        input.value = "";
+        input.focus();
+      }
+      missCount = 0;
+      awaitingAnswer = true;
+      showMessage("");
+      updateProgress();
+    }
 
     hey2.addEventListener("click", () => {
-     
-     
-      
-     
-      
+      newQuestion();
     });
 
-    const congrats = ["Congrats Brianna!!","Good Job B!", "Baaam, nice!!!!", "Bro, good job!!","You are right!!","Ah Snaaaap!!!!!!","I knew you had it!!","Blammmo!!","Shaboosh!!!","Ahhh, Yeeaahh!!!"];
+    const congrats = ["Congrats!!","Good Job!", "Baaam, nice!!!!", "Bro, good job!!","You are right!!","Ah Snaaaap!!!!!!","I knew you had it!!","Blammmo!!","Shaboosh!!!","Ahhh, Yeeaahh!!!"];
 
-        function getRandomWord6() {
+    function getRandomWord6() {
       return congrats[Math.floor(Math.random() * congrats.length)];
     }
 
-    
-
-     document.getElementById("myInput").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-
-        const word4 = document.getElementById("myInput").value;
-        
-        
-        
-      if ( window.comb == word4) {
-            const congrat = getRandomWord6();
-
-        alert(congrat);
-        confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-
-      };
-      console.log(window.comb);
+    function completeQuestion() {
+      completed++;
+      awaitingAnswer = false;
+      updateProgress();
+      if (completed >= ROUND_SIZE) {
+        setTimeout(finishRound, 700);
+      }
     }
-  });
+
+    document.getElementById("myInput").addEventListener("keydown", function(event) {
+      if (event.key !== "Enter") return;
+      if (!awaitingAnswer || window.comb === undefined) return;
+      const raw = document.getElementById("myInput").value;
+      if (raw === "" || raw.trim() === "") return;
+      const guess = Number(raw);
+      if (guess === Number(window.comb)) {
+        const congrat = getRandomWord6();
+        points++;
+        streak++;
+        updateScoreboard();
+        showMessage(congrat, "ok");
+        speakCheer(congrat);
+        burstConfetti();
+        document.getElementById("myInput").value = "";
+        completeQuestion();
+        if (completed < ROUND_SIZE) {
+          setTimeout(newQuestion, 900);
+        }
+      } else {
+        streak = 0;
+        updateScoreboard();
+        missCount++;
+        if (missCount >= 2) {
+          showMessage("Try again. The answer is " + window.comb + ".", "answer");
+          speakCheer("The answer is " + window.comb);
+          document.getElementById("myInput").value = "";
+          completeQuestion();
+          if (completed < ROUND_SIZE) {
+            setTimeout(newQuestion, 1800);
+          }
+        } else {
+          showMessage("Try again!", "try");
+          const input = document.getElementById("myInput");
+          input.select();
+        }
+      }
+    });
+
 
 
 
