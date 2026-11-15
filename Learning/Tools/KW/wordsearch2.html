@@ -214,8 +214,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     function tryPlaceAll() {
       const directions = [
-        [0, 1], [0, -1], [1, 0], [-1, 0],
-        [1, 1], [1, -1], [-1, 1], [-1, -1]
+        [0, 1], [1, 0]
       ];
       const toPlace = words.slice().sort(function (a, b) { return b.length - a.length; });
       for (let w = 0; w < toPlace.length; w++) {
@@ -302,52 +301,103 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     // Selection logic
     let isMouseDown = false;
-
     let isTouchSelecting = false;
+    const allowDiagonalSelection = false;
+
+    function cellPos(cell) {
+      const index = Number(cell.dataset.index);
+      return { row: Math.floor(index / gridSize), col: index % gridSize };
+    }
+
+    function cellsOnLine(start, end) {
+      const a = cellPos(start);
+      const b = cellPos(end);
+      const dRow = b.row - a.row;
+      const dCol = b.col - a.col;
+      if (dRow === 0 && dCol === 0) return [start];
+      let stepR = 0, stepC = 0;
+      if (dRow === 0) {
+        stepC = dCol > 0 ? 1 : -1;
+      } else if (dCol === 0) {
+        stepR = dRow > 0 ? 1 : -1;
+      } else if (allowDiagonalSelection && Math.abs(dRow) === Math.abs(dCol)) {
+        stepR = dRow > 0 ? 1 : -1;
+        stepC = dCol > 0 ? 1 : -1;
+      } else {
+        return null;
+      }
+      const steps = Math.max(Math.abs(dRow), Math.abs(dCol));
+      const line = [];
+      for (let i = 0; i <= steps; i++) {
+        line.push(cells[(a.row + stepR * i) * gridSize + (a.col + stepC * i)]);
+      }
+      return line;
+    }
+
+    let selectionStart = null;
+
+    function setSelectionLine(target) {
+      if (!selectionStart || !target || !target.classList.contains("cell")) return;
+      const line = cellsOnLine(selectionStart, target);
+      if (!line) return;
+      selectedCells.forEach(function (c) { c.classList.remove("selected"); });
+      selectedCells = line;
+      selectedCells.forEach(function (c) {
+        if (!c.classList.contains("found")) c.classList.add("selected");
+      });
+    }
+
+    grid.addEventListener("mousedown", e => {
+      if (e.target.classList.contains("cell")) {
+        isMouseDown = true;
+        selectionStart = e.target;
+        selectedCells.forEach(function (c) { c.classList.remove("selected"); });
+        selectedCells = [e.target];
+        if (!e.target.classList.contains("found")) e.target.classList.add("selected");
+      }
+    });
+
+    grid.addEventListener("mouseover", e => {
+      if (isMouseDown) setSelectionLine(e.target);
+    });
+
+    document.addEventListener("mouseup", () => {
+      finalizeSelection();
+      isMouseDown = false;
+      selectionStart = null;
+    });
+
     grid.addEventListener("touchstart", e => {
       isTouchSelecting = true;
       e.preventDefault();
       const touch = e.touches[0];
       const target = document.elementFromPoint(touch.clientX, touch.clientY);
       if (target && target.classList.contains("cell")) {
+        selectionStart = target;
+        selectedCells.forEach(function (c) { c.classList.remove("selected"); });
         selectedCells = [target];
-        target.classList.add("selected");
+        if (!target.classList.contains("found")) target.classList.add("selected");
       }
     }, { passive: false });
+
     grid.addEventListener("touchmove", e => {
       if (isTouchSelecting) {
         e.preventDefault();
         const touch = e.touches[0];
         const target = document.elementFromPoint(touch.clientX, touch.clientY);
-        if (target && target.classList.contains("cell") && !selectedCells.includes(target)) {
-          selectedCells.push(target);
-          target.classList.add("selected");
-        }
+        setSelectionLine(target);
       }
     }, { passive: false });
+
     grid.addEventListener("touchend", () => {
       isTouchSelecting = false;
-      document.dispatchEvent(new Event("mouseup"));
+      finalizeSelection();
+      selectionStart = null;
     });
 
+    function finalizeSelection() {
 
-    grid.addEventListener("mousedown", e => {
-      if (e.target.classList.contains("cell")) {
-        isMouseDown = true;
-        selectedCells = [e.target];
-        e.target.classList.add("selected");
-      }
-    });
-
-    grid.addEventListener("mouseover", e => {
-      if (isMouseDown && e.target.classList.contains("cell") && !selectedCells.includes(e.target)) {
-        selectedCells.push(e.target);
-        e.target.classList.add("selected");
-      }
-    });
-
-    document.addEventListener("mouseup", () => {
-  if (selectedCells.length > 0) {
+    if (selectedCells.length > 0) {
     const selectedWord = selectedCells.map(c => c.textContent).join("");
     const reversedWord = selectedWord.split("").reverse().join("");
     const matchedWord = words.includes(selectedWord) ? selectedWord : (words.includes(reversedWord) ? reversedWord : null);
@@ -390,8 +440,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     selectedCells = [];
   }
-  isMouseDown = false;
-});
+    }
+
   </script>
 
 </body>
