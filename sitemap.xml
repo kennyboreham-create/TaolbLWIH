@@ -25,12 +25,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learningwithlukeybuke.com/Learning/coding.html</loc>
-    <lastmod>2025-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://learningwithlukeybuke.com/Learning/reading.html</loc>
     <lastmod>2025-11-28</lastmod>
     <changefreq>daily</changefreq>
@@ -44,12 +38,6 @@
   </url>
   <url>
     <loc>https://learningwithlukeybuke.com/Learning/story.html</loc>
-    <lastmod>2025-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://learningwithlukeybuke.com/Learning/problemsolving.html</loc>
     <lastmod>2025-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
