@@ -1,0 +1,384 @@
+/* Learning with Lukey Buke — shared chrome fixes (nav, hero, follow, mobile tools) */
+
+/* Avoid a wide brand overflowing 390px. Keep vertical scroll on html. */
+body {
+  max-width: 100%;
+}
+
+/* Hero: enough top space for the overlay nav, enough bottom space so
+   the wave sits UNDER the heading instead of cutting through it. */
+.hero-header {
+  margin-bottom: 2rem;
+  padding: 8rem 0 10rem;
+}
+.hero-header > .container.my-5,
+.hero-header > .container.py-5 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.hero-header > .container.px-lg-5 {
+  padding-top: 0;
+}
+.hero-header .row.g-5.py-5,
+.hero-header .row.py-5 {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+.hero-header h1 {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 991.98px) {
+  .hero-header {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem 0 7rem;
+  }
+}
+
+/* Mobile nav: full-width stacked list, no clip, page can scroll.
+   Disable Bootstrap's collapse height animation so items aren't
+   hidden mid-open (overflow:hidden + animating height). */
+@media (max-width: 991.98px) {
+  .navbar.navbar-light {
+    position: relative !important;
+    flex-wrap: wrap !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  .navbar-light .navbar-brand {
+    white-space: normal;
+    max-width: calc(100% - 3.5rem);
+    margin-right: 0.25rem;
+  }
+  .navbar-light .navbar-brand .h1,
+  .navbar-light .navbar-brand h1 {
+    font-size: 1.15rem !important;
+    line-height: 1.25;
+    white-space: normal;
+    color: var(--primary, #6222CC);
+  }
+  .navbar-toggler {
+    margin-left: auto;
+    border: 1px solid #ccc;
+  }
+  .navbar-light .navbar-collapse,
+  .navbar-light .navbar-collapse.collapse,
+  .navbar-light .navbar-collapse.collapsing,
+  .navbar-light .navbar-collapse.show {
+    flex-basis: 100% !important;
+    flex-grow: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    position: static !important;
+    background: #fff;
+    z-index: 1030;
+    margin-top: 8px;
+    padding: 0.25rem 0 0.75rem;
+    border-top: 1px solid #ddd;
+    transition: none !important;
+  }
+  .navbar-light .navbar-collapse.collapse:not(.show):not(.collapsing) {
+    display: none !important;
+  }
+  .navbar-light .navbar-collapse.collapsing,
+  .navbar-light .navbar-collapse.show {
+    display: block !important;
+  }
+  .navbar-light .navbar-nav {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch;
+    width: 100%;
+    margin: 0 !important;
+  }
+  .navbar-light .navbar-nav .nav-link,
+  .navbar-light .navbar-nav .nav-item .nav-link,
+  .sticky-top.navbar-light .navbar-nav .nav-link {
+    white-space: normal !important;
+    display: block !important;
+    width: 100%;
+    padding: 0.7rem 0.35rem !important;
+    margin: 0 !important;
+    color: #222 !important;
+    font-size: 1.05rem;
+    line-height: 1.35;
+    overflow: visible !important;
+    height: auto !important;
+  }
+  .navbar-light .navbar-collapse > .btn,
+  .navbar-light .navbar-collapse .btn.rounded-pill {
+    display: inline-block;
+    margin: 0.6rem 0.35rem 0.2rem 0;
+    color: #3b1460 !important;
+    background: #fff !important;
+    border: 1px solid #6222CC;
+    white-space: normal;
+  }
+}
+
+/* Compact follow links */
+.lwl-mini-follow {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  flex: 0 0 auto;
+  clear: both;
+  padding: 10px 12px;
+  margin: 0;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  font-family: Heebo, Segoe UI, sans-serif;
+  color: #333;
+}
+.lwl-mini-follow a {
+  color: #6222CC;
+  text-decoration: underline;
+}
+.sidebar > .lwl-mini-follow {
+  text-align: left;
+  padding-left: 0;
+  margin-top: 12px;
+}
+
+/* thankyou page */
+.lwl-simple-page {
+  font-family: Heebo, Segoe UI, sans-serif;
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 0 1.25rem 3rem;
+  color: #222;
+  line-height: 1.5;
+}
+.lwl-simple-page h1 { color: #6222CC; font-family: Jost, Heebo, sans-serif; }
+.lwl-simple-page a { color: #6222CC; }
+
+/* Typing levels: stack the level nav above the play area on small screens.
+   Desktop (992px+) is unchanged. */
+@media (max-width: 991.98px) {
+  body:has(.sidebar):has(.keyboard) {
+    display: block;
+    height: auto;
+    min-height: 100vh;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  body:has(.sidebar):has(.keyboard) .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    padding: 8px 10px 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    overflow: visible;
+  }
+  body:has(.sidebar):has(.keyboard) .sidebar a {
+    display: inline-block;
+    width: auto;
+    padding: 8px 10px;
+    font-size: 0.95rem;
+  }
+  body:has(.sidebar):has(.keyboard) .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px 8px 24px;
+    box-sizing: border-box;
+  }
+  body:has(.sidebar):has(.keyboard) .box {
+    width: auto !important;
+    max-width: 100%;
+    height: auto;
+    min-height: 3.5rem;
+  }
+  body:has(.sidebar):has(.keyboard) .keyboard {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    width: 100%;
+    max-width: 100%;
+    gap: 4px;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+  body:has(.sidebar):has(.keyboard) .key {
+    width: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    min-width: 0;
+    font-size: 0.8rem;
+  }
+}
+
+/* Calcshower mobile title: wrap instead of clipping mid-letter */
+@media (max-width: 991.98px) {
+  #sideNav.navbar,
+  #sideNav.fixed-top {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 0.5rem 0.75rem !important;
+    overflow: visible !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+  }
+  #sideNav .navbar-brand,
+  #sideNav .navbar-brand.js-scroll-trigger,
+  #sideNav .navbar-brand .d-block.d-lg-none,
+  #sideNav .navbar-brand h1,
+  #sideNav .d-block.d-lg-none h1 {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    font-size: 1.05rem !important;
+    line-height: 1.25 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: calc(100% - 3.5rem);
+    color: inherit;
+  }
+  #sideNav .navbar-toggler {
+    margin-left: auto;
+    align-self: center;
+  }
+  h1.tool-title {
+    font-size: 1.35rem;
+    padding: 0.75rem 1rem;
+    white-space: normal;
+    overflow: visible;
+    max-width: 100%;
+  }
+}
+
+/* Books on a narrow phone: scale the spread to the viewport (content unchanged). */
+@media (max-width: 700px) {
+  body:has(.book) {
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  body:has(.book) .book {
+    width: calc(100vw - 16px) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 600 / 400;
+    font-size: clamp(11px, 3.6vw, 22px) !important;
+    box-sizing: border-box;
+  }
+}
+
+
+/* Story listing: placeholder comics that have no working destination. */
+.service-item.lwl-coming-soon {
+  cursor: default;
+  opacity: 0.78;
+  box-shadow: none;
+}
+.service-item.lwl-coming-soon:hover,
+.service-item.lwl-coming-soon:focus,
+.service-item.lwl-coming-soon:focus-within {
+  margin-top: 0;
+  padding-bottom: 45px;
+  background: var(--light, #F8F9FA);
+  cursor: default;
+}
+.service-item.lwl-coming-soon:hover .service-icon,
+.service-item.lwl-coming-soon:focus .service-icon {
+  color: var(--light, #F8F9FA);
+  background: url(/Learning/img/blob-primary.png) center center no-repeat;
+  background-size: contain;
+}
+.service-item.lwl-coming-soon:hover h5,
+.service-item.lwl-coming-soon:hover p,
+.service-item.lwl-coming-soon:hover .lwl-coming-soon-label {
+  color: var(--dark, #181d38);
+}
+.lwl-coming-soon-label {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #6c5a80;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Desktop nav: fit brand, links, and the last yellow button between
+   992px and 1199px. A lighter tightening from 1200–1399px also stops
+   the same clip that was happening at 1280. Below 992 and at 1400+
+   stay unchanged. */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .navbar.navbar-light,
+  .navbar.navbar-light.px-lg-5 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    flex-wrap: nowrap;
+    max-width: 100%;
+  }
+  .navbar-light .navbar-brand {
+    margin-right: 0.4rem;
+    min-width: 0;
+  }
+  .navbar-light .navbar-brand .h1,
+  .navbar-light .navbar-brand h1 {
+    font-size: 1.2rem !important;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .navbar-light .navbar-nav .nav-link,
+  .navbar-light .navbar-nav .nav-item .nav-link,
+  .sticky-top.navbar-light .navbar-nav .nav-link {
+    margin-right: 0.45rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    font-size: 0.9rem !important;
+  }
+  .navbar-light .btn,
+  .navbar-light .navbar-collapse > .btn,
+  .navbar-light .navbar-collapse .btn.rounded-pill {
+    padding: 0.35rem 0.7rem !important;
+    margin-left: 0.35rem !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+  .navbar.navbar-light,
+  .navbar.navbar-light.px-lg-5 {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    max-width: 100%;
+  }
+  .navbar-light .navbar-brand .h1,
+  .navbar-light .navbar-brand h1 {
+    font-size: 1.7rem !important;
+    white-space: nowrap;
+  }
+  .navbar-light .navbar-nav .nav-link,
+  .navbar-light .navbar-nav .nav-item .nav-link,
+  .sticky-top.navbar-light .navbar-nav .nav-link {
+    margin-right: 0.85rem !important;
+    font-size: 1.05rem !important;
+  }
+  .navbar-light .btn,
+  .navbar-light .navbar-collapse > .btn,
+  .navbar-light .navbar-collapse .btn.rounded-pill {
+    padding: 0.4rem 0.9rem !important;
+    margin-left: 0.5rem !important;
+    white-space: nowrap;
+  }
+}
