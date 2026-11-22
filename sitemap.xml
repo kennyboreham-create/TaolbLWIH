@@ -187,12 +187,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://learningwithlukeybuke.com/Learning/Comics/comic3.html</loc>
-    <lastmod>2025-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://learningwithlukeybuke.com/Learning/Comics/comic2.html</loc>
     <lastmod>2025-11-28</lastmod>
     <changefreq>daily</changefreq>
@@ -218,12 +212,6 @@
   </url>
   <url>
     <loc>https://learningwithlukeybuke.com/Learning/Blog/funnymemes.html</loc>
-    <lastmod>2025-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://learningwithlukeybuke.com/Learning/Comics/comic4.html</loc>
     <lastmod>2025-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -520,6 +508,11 @@
     <loc>https://learningwithlukeybuke.com/Learning/store/terms.html</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://learningwithlukeybuke.com/Learning/contact.html</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 </urlset>

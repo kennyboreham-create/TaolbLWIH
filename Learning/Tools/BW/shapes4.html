@@ -185,6 +185,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     
   </style>
 
+<link href="/Learning/css/lwl-chrome.css" rel="stylesheet">
 </head>
 <body>
    <div class="logo">
@@ -205,7 +206,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
     <div id="instruction">Loading...</div>
-    <p class="drag-hint">Drag me! Or tap a shape, then tap the board.</p>
+    <p class="drag-hint">Drag a shape onto the board, or tap a shape, then tap the board.</p>
     <div id="canvas" ondragover="allowDrop(event)" ondrop="dropShape(event)"></div>
     <div>
     <button id="checkBtn" onclick="checkGroup()">Check Group</button><space> </space><button id="speechToggleBtn" onclick="toggleSpeech()">Speech: OFF</button></div>
@@ -361,5 +362,7 @@ function generateInstruction() {
     // Start game
     generateInstruction();
   </script>
+    <script src="/Learning/js/lwl-events.js"></script>
+<nav class="lwl-mini-follow" aria-label="Social links"><a href="https://www.instagram.com/learningwithlukeybuke/" target="_blank" rel="noopener">Instagram</a> &middot; <a href="https://www.pinterest.com/Learning_With_Lukey_Buke/" target="_blank" rel="noopener">Pinterest</a></nav>
 </body>
 </html>
