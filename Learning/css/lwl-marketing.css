@@ -1,0 +1,292 @@
+/* Learning with Lukey Buke — shared marketing styles (forms, CTA) */
+:root {
+  --lwl-purple: #6222CC;
+  --lwl-orange: #FBA504;
+  --lwl-ink: #222;
+  --lwl-muted: #444;
+}
+
+/* Forms */
+.lwl-signup {
+  background: #fff;
+  border: 1px solid rgba(98, 34, 204, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(98, 34, 204, 0.08);
+  text-align: left;
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.lwl-signup *,
+.lwl-signup *::before,
+.lwl-signup *::after { box-sizing: border-box; }
+.lwl-signup h2,
+.lwl-signup .lwl-form-title {
+  font-family: Jost, Heebo, sans-serif;
+  color: var(--lwl-purple);
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  font-size: 1.6rem;
+  display: block;
+  width: 100%;
+}
+.lwl-signup .lwl-form-lead,
+.lwl-signup .lwl-grownup-note {
+  margin: 0 0 16px 0;
+  color: var(--lwl-muted);
+  display: block;
+  width: 100%;
+}
+.lwl-signup .lwl-grownup-note {
+  font-size: 0.95em;
+  font-style: italic;
+}
+.lwl-signup .mc-field-group {
+  display: block;
+  width: 100%;
+  margin: 0 0 12px 0;
+}
+.lwl-signup label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.lwl-signup input[type="email"],
+.lwl-signup input[type="text"] {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 1rem;
+}
+.lwl-signup input[type="email"]:focus,
+.lwl-signup input[type="text"]:focus {
+  outline: 2px solid var(--lwl-purple);
+  border-color: var(--lwl-purple);
+}
+
+/* Do not use Bootstrap's .input-group flex row for interest checkboxes */
+.lwl-signup .input-group,
+.lwl-signup .lwl-groups {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100%;
+  margin: 16px 0 !important;
+  flex: none !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+.lwl-signup .input-group > strong,
+.lwl-signup .lwl-groups > strong,
+.lwl-signup .input-group > p,
+.lwl-signup .lwl-groups > p {
+  display: block !important;
+  width: 100% !important;
+  flex: none !important;
+  margin: 0 0 8px 0;
+}
+.lwl-signup .input-group ul,
+.lwl-signup .lwl-groups ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: block !important;
+  width: 100%;
+}
+.lwl-signup .input-group li,
+.lwl-signup .lwl-groups li {
+  display: block !important;
+  width: 100%;
+  margin: 0 0 8px 0;
+  padding: 0;
+}
+.lwl-signup .input-group li label,
+.lwl-signup .lwl-groups li label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+  margin: 0;
+}
+.lwl-signup .input-group input[type="checkbox"],
+.lwl-signup .lwl-groups input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  flex: none;
+}
+
+.lwl-signup .button,
+.lwl-signup input[type="submit"] {
+  display: inline-block;
+  background: var(--lwl-orange);
+  color: #3b1460;
+  border: 0;
+  border-radius: 50rem;
+  padding: 12px 28px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.lwl-signup .button:hover,
+.lwl-signup input[type="submit"]:hover {
+  background: #e09404;
+  color: #2a0d45;
+}
+.lwl-signup .button:disabled,
+.lwl-signup input[type="submit"]:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+.lwl-casl {
+  margin: 12px 0 0 0;
+  font-size: 0.85em;
+  line-height: 1.4;
+  color: #333;
+}
+.lwl-form-status {
+  margin: 10px 0 0 0;
+  font-size: 0.95em;
+  color: #8a1f1f;
+}
+.lwl-form-status.lwl-ok { color: #1b6b3a; }
+
+/* In-flow CTA bars on content pages (not used inside live games) */
+.lwl-cta-bar {
+  background: #f7f3ff;
+  border-top: 3px solid var(--lwl-purple);
+  padding: 18px 16px;
+  text-align: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  clear: both;
+  display: block;
+}
+.lwl-cta-bar p {
+  margin: 0 0 10px 0;
+  font-size: 1.05rem;
+  color: var(--lwl-ink);
+}
+.lwl-cta-bar .lwl-cta-btn,
+a.lwl-cta-btn {
+  display: inline-block;
+  background: var(--lwl-orange);
+  color: #3b1460 !important;
+  border-radius: 50rem;
+  padding: 10px 22px;
+  font-weight: 700;
+  text-decoration: none !important;
+  white-space: nowrap;
+}
+.lwl-cta-bar .lwl-cta-btn:hover { background: #e09404; }
+.lwl-cta-bar .lwl-cta-quiet {
+  display: inline-block;
+  margin-left: 12px;
+  color: var(--lwl-purple);
+}
+
+/* Game/book/comic pages: hide leftover in-flow bars so they cannot become a side column */
+.lwl-game-page .lwl-cta-bar,
+.lwl-game-page #lwl-comic-end-cta > .lwl-cta-bar {
+  display: none !important;
+}
+
+/* Isolated end-of-game host.
+   Game mode: absolutely positioned BELOW the existing page (top set by JS), so it never
+   joins a flex/grid row and never moves or resizes the game. Hub mode: in-flow block. */
+#lwl-end-cta-host {
+  box-sizing: border-box !important;
+  display: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  z-index: 30 !important;
+}
+#lwl-end-cta-host.lwl-below {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: auto !important;
+}
+#lwl-end-cta-host.lwl-in-flow {
+  position: static !important;
+  width: 100% !important;
+  margin-top: 12px !important;
+}
+#lwl-end-cta-host.lwl-open {
+  display: block !important;
+}
+
+
+.lwl-bullets {
+  padding-left: 1.2rem;
+  margin: 0 0 1.25rem 0;
+}
+.lwl-bullets li { margin: 0 0 0.35rem 0; }
+
+.lwl-hero-tertiary {
+  display: inline-block;
+  color: #fff !important;
+  text-decoration: underline;
+  margin-top: 12px;
+  margin-left: 8px;
+}
+
+/* Keep "Free mazes" on one line in the shared desktop nav only */
+@media (min-width: 992px) {
+  .navbar-nav .nav-link {
+    white-space: nowrap;
+  }
+}
+
+/* Back-to-top: theme's .btn-lg-square {display:flex} otherwise wins and covers headings */
+a.back-to-top {
+  display: none !important;
+  right: 16px;
+  bottom: 16px;
+  z-index: 90;
+}
+a.back-to-top.lwl-show {
+  display: flex !important;
+}
+
+/* New marketing pages: stop a sliver of horizontal scroll on narrow viewports */
+html.lwl-marketing-page,
+html.lwl-marketing-page body,
+.lwl-marketing-page,
+body.lwl-marketing-page {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+.lwl-marketing-page .container,
+.lwl-marketing-page .container-xxl,
+.lwl-marketing-page .row,
+.lwl-marketing-page .hero-header,
+.lwl-marketing-page img,
+.lwl-marketing-page .lwl-signup {
+  max-width: 100%;
+}
+.lwl-marketing-page .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Reserve the scrollbar gutter on game pages so the end CTA (which makes the page
+   scrollable) cannot re-centre the game by the scrollbar's width. */
+html.lwl-game-page {
+  scrollbar-gutter: stable;
+}
+
+.lwl-check-email {
+  margin: 10px 0 12px 0;
+  font-size: 0.95em;
+  color: #333;
+}

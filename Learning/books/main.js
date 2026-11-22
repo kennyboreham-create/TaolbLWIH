@@ -41,6 +41,10 @@ document.getElementById('readBtn').addEventListener('click', () => {
 });
 
    function updatePages() {
+  try {
+    window.lwlBookPage = { index: current, total: pages.length };
+    document.dispatchEvent(new CustomEvent('lwl-book-page', { detail: window.lwlBookPage }));
+  } catch (e) {}
   leftPage.classList.add('turning');
   rightPage.classList.add('turning');
 

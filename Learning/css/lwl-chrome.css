@@ -382,3 +382,55 @@ body {
     white-space: nowrap;
   }
 }
+
+/* In-page story anchors: clear the overlay/sticky nav. */
+#comic {
+  scroll-margin-top: 7rem;
+}
+
+/* Word search (1-3): on small screens, stack the word list under the
+   grid and shrink the 8x8 board to the viewport. Desktop is unchanged.
+   Cells keep real box sizes (no transform), so drag/touch hit-testing
+   stays aligned with the letters. */
+@media (max-width: 991.98px) {
+  body:has(.sidebar):has(#grid.grid) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    align-items: stretch;
+  }
+  body:has(.sidebar):has(#grid.grid) #grid.grid {
+    order: 1;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    padding: 12px;
+    gap: 4px;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-rows: repeat(8, auto);
+    justify-content: stretch;
+    align-content: start;
+  }
+  body:has(.sidebar):has(#grid.grid) #grid.grid .cell {
+    width: auto;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    font-size: clamp(12px, 4.6vw, 20px);
+  }
+  body:has(.sidebar):has(#grid.grid) .sidebar {
+    order: 2;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    border-right: none;
+    border-top: 5px solid black;
+  }
+  body:has(.sidebar):has(#grid.grid) #profilePic {
+    order: 3;
+    display: block;
+    margin: 16px auto;
+  }
+}
