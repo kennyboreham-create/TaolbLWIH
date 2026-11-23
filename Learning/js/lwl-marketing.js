@@ -152,7 +152,12 @@
       return;
     }
     var plain = stripMailchimpMsg((data && data.msg) || "");
-    if (kind === "exists" || kind === "invalid") {
+    if (kind === "exists") {
+      plain = plain.replace(/\s*Click here to update your profile\.?\s*$/i, "").trim();
+      setStatusText(status, plain || "You're already subscribed.");
+      return;
+    }
+    if (kind === "invalid") {
       setStatusText(status, plain || MC_NETWORK_MSG);
       return;
     }
