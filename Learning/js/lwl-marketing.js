@@ -34,6 +34,12 @@
   window.lwlEvent = lwlEvent;
 
   /* ---------- Mailchimp JSONP submit ---------- */
+  var MC_HOSTED = "https://gmail.us16.list-manage.com/subscribe?u=" + MC_U + "&id=" + MC_ID;
+  var MC_CAPTCHA_MSG = "Almost there! Mailchimp needs a quick check that you're human.";
+  var MC_FALLBACK_LABEL = "Continue on Mailchimp";
+  var MC_TIMEOUT_MSG = "That took too long. Please try again.";
+  var MC_NETWORK_MSG = "Something went wrong. Please try again.";
+
   function serializeForm(form) {
     var fd = new FormData(form);
     var parts = [];
@@ -43,10 +49,119 @@
     return parts.join("&");
   }
 
-  function stripTags(html) {
-    var tmp = document.createElement("div");
-    tmp.innerHTML = html || "";
-    return (tmp.textContent || tmp.innerText || "").replace(/\s+/g, " ").trim();
+  function formEmail(form) {
+    var input = form.querySelector('input[name="EMAIL"], input[type="email"]');
+    return input && input.value ? String(input.value).trim() : "";
+  }
+
+  /* Strip tags and links without assigning innerHTML. Keep visible text only. */
+  function stripMailchimpMsg(raw) {
+    var html = String(raw == null ? "" : raw);
+    var doc = new DOMParser().parseFromString("<!doctype html><body>" + html, "text/html");
+    var nodes = doc.querySelectorAll("script, style");
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i].parentNode) nodes[i].parentNode.removeChild(nodes[i]);
+    }
+    return (doc.body && doc.body.textContent ? doc.body.textContent : "").replace(/\s+/g, " ").trim();
+  }
+
+  function isPreviewHost() {
+    var host = (window.location && window.location.hostname) || "";
+    return host === "localhost" || host === "127.0.0.1" || host === "172.30.0.2";
+  }
+
+  function simKind() {
+    if (!isPreviewHost()) return "";
+    try {
+      return (new URLSearchParams(window.location.search).get("mcsim") || "").toLowerCase();
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function simulatedPayload(kind) {
+    if (kind === "success") return { result: "success", msg: "Thank you for subscribing." };
+    if (kind === "captcha") return { result: "error", msg: "Captcha failed. Please confirm your humanity to subscribe." };
+    if (kind === "exists") return { result: "error", msg: "test@example.com is already subscribed to the list. <a href=\"https://example.invalid/update\">Click here to update your profile</a>." };
+    if (kind === "invalid") return { result: "error", msg: "Please enter a valid email address." };
+    if (kind === "error") return { result: "error", msg: MC_NETWORK_MSG };
+    if (kind === "timeout") return { result: "error", msg: MC_TIMEOUT_MSG, timeout: true };
+    return null;
+  }
+
+  function classifyMcResponse(data) {
+    if (data && data.result === "success") return "success";
+    var msg = stripMailchimpMsg((data && data.msg) || "");
+    var low = msg.toLowerCase();
+    if (low.indexOf("captcha") !== -1 || low.indexOf("humanity") !== -1) return "captcha";
+    if (low.indexOf("already subscribed") !== -1 || low.indexOf("already a list member") !== -1) return "exists";
+    if (low.indexOf("invalid email") !== -1 || low.indexOf("valid email address") !== -1) return "invalid";
+    return "error";
+  }
+
+  function hostedFormUrl(email) {
+    var url = MC_HOSTED;
+    if (email) url += "&EMAIL=" + encodeURIComponent(email);
+    return url;
+  }
+
+  function ensureStatus(form, status) {
+    if (status) return status;
+    status = document.createElement("p");
+    status.className = "lwl-form-status";
+    form.appendChild(status);
+    return status;
+  }
+
+  function prepareStatus(status) {
+    if (!status) return;
+    if (!status.getAttribute("aria-live")) status.setAttribute("aria-live", "polite");
+    if (!status.getAttribute("role")) status.setAttribute("role", "status");
+  }
+
+  function setStatusText(status, text) {
+    if (!status) return;
+    prepareStatus(status);
+    status.classList.remove("lwl-ok", "lwl-need-check");
+    status.textContent = text;
+  }
+
+  function setStatusWithFallback(status, text, email) {
+    if (!status) return;
+    prepareStatus(status);
+    status.classList.remove("lwl-ok");
+    status.classList.add("lwl-need-check");
+    while (status.firstChild) status.removeChild(status.firstChild);
+    status.appendChild(document.createTextNode(text));
+    status.appendChild(document.createTextNode(" "));
+    var btn = document.createElement("a");
+    btn.className = "lwl-mc-fallback-btn";
+    btn.href = hostedFormUrl(email);
+    btn.target = "_blank";
+    btn.rel = "noopener noreferrer";
+    btn.textContent = MC_FALLBACK_LABEL;
+    status.appendChild(btn);
+  }
+
+  function applyMcResponse(form, status, btn, data) {
+    if (btn) btn.disabled = false;
+    var kind = classifyMcResponse(data);
+    if (kind === "success") {
+      var lead = form.getAttribute("data-lead-type") || "maze_pack";
+      window.location.href = THANKS + "?lead=" + encodeURIComponent(lead);
+      return;
+    }
+    var plain = stripMailchimpMsg((data && data.msg) || "");
+    if (kind === "exists") {
+      plain = plain.replace(/\s*Click here to update your profile\.?\s*$/i, "").trim();
+      setStatusText(status, plain || "You're already subscribed.");
+      return;
+    }
+    if (kind === "invalid") {
+      setStatusText(status, plain || MC_NETWORK_MSG);
+      return;
+    }
+    setStatusWithFallback(status, MC_CAPTCHA_MSG, formEmail(form));
   }
 
   function jsonp(url, callback) {
@@ -63,10 +178,10 @@
     window[name] = function (data) { finish(data); };
     script.src = url + (url.indexOf("?") >= 0 ? "&" : "?") + "c=" + name;
     script.onerror = function () {
-      finish({ result: "error", msg: "Something went wrong. Please try again." });
+      finish({ result: "error", msg: MC_NETWORK_MSG });
     };
     setTimeout(function () {
-      finish({ result: "error", msg: "That took too long. Please try again." });
+      finish({ result: "error", msg: MC_TIMEOUT_MSG });
     }, 12000);
     document.body.appendChild(script);
   }
@@ -75,30 +190,28 @@
     var form = e.target;
     if (!form || !form.classList.contains("lwl-mc-form")) return;
     e.preventDefault();
-    var status = form.querySelector(".lwl-form-status");
+    var status = ensureStatus(form, form.querySelector(".lwl-form-status"));
     var btn = form.querySelector('[type="submit"]');
     if (btn) btn.disabled = true;
-    if (status) {
-      status.classList.remove("lwl-ok");
-      status.textContent = "Sending\u2026";
+    setStatusText(status, "Sending\u2026");
+    function done(data) { applyMcResponse(form, status, btn, data); }
+    var kind = simKind();
+    var fake = kind ? simulatedPayload(kind) : null;
+    if (fake) {
+      var delay = kind === "timeout" ? 80 : 0;
+      setTimeout(function () { done(fake); }, delay);
+      return;
     }
     var url = MC_POST_JSON + "?u=" + MC_U + "&id=" + MC_ID + "&" + serializeForm(form);
-    jsonp(url, function (data) {
-      if (btn) btn.disabled = false;
-      if (data && data.result === "success") {
-        var lead = form.getAttribute("data-lead-type") || "maze_pack";
-        window.location.href = THANKS + "?lead=" + encodeURIComponent(lead);
-        return;
-      }
-      var msg = stripTags((data && data.msg) || "Something went wrong. Please try again.");
-      if (status) status.textContent = msg || "Something went wrong. Please try again.";
-    });
+    jsonp(url, done);
   }, false);
 
   function decorateForms() {
     var forms = document.querySelectorAll("form.lwl-mc-form");
     for (var i = 0; i < forms.length; i++) {
       var form = forms[i];
+      var existingStatus = form.querySelector(".lwl-form-status");
+      if (existingStatus) prepareStatus(existingStatus);
       var groups = form.querySelector(".input-group");
       if (groups && !groups.classList.contains("lwl-groups")) {
         groups.classList.add("lwl-groups");

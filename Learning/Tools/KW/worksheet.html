@@ -89,6 +89,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   align-items:center;
 ">
   <div style="
+    position:relative;
     background:#fff;
     padding:20px;
     border-radius:10px;
@@ -128,11 +129,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>
   // Show popup when mouse leaves window at the top (exit intent)
-  document.addEventListener('mouseout', function(e) {
-    if (e.clientY < 10) {
-      document.getElementById('exitPopup').style.display = 'flex';
+  (function () {
+    var STORAGE_KEY = "lwlExitPopupShown";
+    var shownInMemory = false;
+
+    function alreadyShown() {
+      if (shownInMemory) return true;
+      try {
+        if (window.sessionStorage && sessionStorage.getItem(STORAGE_KEY)) return true;
+      } catch (err) {}
+      return false;
     }
-  });
+
+    function markShown() {
+      shownInMemory = true;
+      try {
+        if (window.sessionStorage) sessionStorage.setItem(STORAGE_KEY, "1");
+      } catch (err) {}
+    }
+
+    function isCoarseOrTouch() {
+      try {
+        if (window.matchMedia && (
+          window.matchMedia("(pointer: coarse)").matches ||
+          window.matchMedia("(hover: none)").matches
+        )) return true;
+      } catch (err) {}
+      return false;
+    }
+
+    function focusInsideSignup() {
+      var active = document.activeElement;
+      if (!active || !active.closest) return false;
+      return !!active.closest("form.lwl-mc-form, #mc_embed_signup_worksheet");
+    }
+
+    document.addEventListener("mouseout", function (e) {
+      if (e.clientY >= 10) return;
+      if (alreadyShown() || isCoarseOrTouch() || focusInsideSignup()) return;
+      var popup = document.getElementById("exitPopup");
+      if (!popup) return;
+      popup.style.display = "flex";
+      markShown();
+    });
+  })();
 </script>
 
 
