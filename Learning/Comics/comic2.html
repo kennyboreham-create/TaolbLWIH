@@ -537,6 +537,7 @@ const Earth = (x, y, scale = 1) => {
     function render(){
       const p = pages[index];
       panel.innerHTML = p.art();
+      panel.querySelector('svg').setAttribute('aria-label', pageText['page' + (index + 1)]);
       caption.innerHTML = `<strong>${p.title}</strong> — ${p.caption}`;
       pageLabel.textContent = `${index+1} / ${pages.length}`;
       dots.querySelectorAll('.dot').forEach((d,i)=>{
